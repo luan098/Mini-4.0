@@ -1,0 +1,151 @@
+.grecaptcha-badge {
+    display: none !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-background-clip: text;
+    /* -webkit-text-fill-color: #ffffff; */
+    transition: background-color 5000s ease-in-out 0s;
+    box-shadow: inset 0 0 20px 20px #23232329;
+}
+
+input:-webkit-autofill {
+    /* -webkit-text-fill-color: yellow !important; */
+}
+
+.custom-file-label,
+.custom-control-label,
+.custom-file-input,
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
+.note-toolbar {
+    background: #3f6791 !important;
+}
+
+.mg-r-5 {
+    margin-right: 5px;
+}
+
+.mg-l-5 {
+    margin-left: 5px;
+}
+
+.mg-r-15 {
+    margin-right: 15px;
+}
+
+.table tbody tr td {
+    vertical-align: middle !important;
+}
+
+.vertical-middle {
+    vertical-align: middle !important;
+}
+
+.vertical-middle .card-title {
+    padding-top: 8px;
+}
+
+.swal2-html-container {
+    color: #fff !important;
+}
+
+.red-obj {
+    color: red;
+}
+
+/* --- */
+#sortable {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+#sortable li {
+    margin: 0 3px 3px 3px;
+    padding: 0.4em;
+    padding-left: 10px;
+    font-size: 1.4em;
+    height: 18px;
+    border-radius: 4px;
+    color: #cdcdcd;
+}
+
+#sortable li span {
+    position: absolute;
+    margin-left: -1.3em;
+}
+
+.ui-state-default {
+    height: 88px !important;
+    cursor: pointer;
+}
+
+/* --- */
+.fancy,
+.fancy:focus,
+.fancy:active {
+    display: inline-block;
+    position: relative;
+    border-radius: 4px;
+    outline: none !important;
+    border: none !important;
+}
+
+.fancy img {
+    border-radius: 4px;
+}
+
+.fancy .fancy-efeito {
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    display: flex;
+    font-size: 15px;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    position: absolute;
+    transition: all 0.5s ease-in-out;
+    opacity: 0;
+}
+
+.fancy:hover .fancy-efeito {
+    opacity: 1;
+}
+
+.img-round {
+    border-radius: 3px;
+}
+
+
+.auto {
+    margin: auto !important;
+}
+
+.h1-prod {
+    margin: 0px;
+    padding: 0px;
+    color: #fff;
+    font-size: 16px;
+    height: 57.60px;
+    overflow: hidden;
+    display: block;
+    margin-top: 5px;
+}
+
+.max-width-qtd {
+    max-width: 25%;
+}
+
+.a-info-gray, .a-info-gray:focus, .a-info-gray:active{
+    color: #adb5bd !important;
+}
