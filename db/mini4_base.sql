@@ -41,7 +41,7 @@ CREATE TABLE `menus` (
 
 LOCK TABLES `menus` WRITE;
 /*!40000 ALTER TABLE `menus` DISABLE KEYS */;
-INSERT INTO `menus` VALUES (2,NULL,'Users','','fas fa-users-cog',_binary '1'),(3,NULL,'Configurations','','fas fa-tools',_binary '1'),(4,3,'System','settings','far fa-circle',_binary '1'),(7,3,'Texts','texts','far fa-circle',_binary '1'),(8,NULL,'Products','','fas fa-shopping-cart',_binary '1'),(9,8,'Categories','product-categories','far fa-circle',_binary '1'),(10,8,'Products','products','far fa-circle',_binary '1'),(11,NULL,'Orders','orders','fas fa-scroll',_binary '1'),(15,3,'Plans','plans','far fa-circle',_binary '1'),(16,2,'Users','users','far fa-circle',_binary '1'),(17,2,'Sellers','users/sellers','far fa-circle',_binary '1'),(18,2,'Clients','users/clients','far fa-circle',_binary '1'),(19,2,'Mediators','users/mediators','far fa-circle',_binary '1'),(20,NULL,'Subscriptions','','fas fa-thumbs-up',_binary '1'),(21,20,'Subscriptions','subscriptions','far fa-circle',_binary '1'),(22,20,'Expiring','subscriptions/expiring','far fa-circle',_binary '1'),(23,20,'Monthly Payments','subscriptions/monthly-payments','far fa-circle',_binary '1'),(24,2,'User Types','user-types','far fa-circle',_binary '1');
+INSERT INTO `menus` VALUES (2,NULL,'Users','','fas fa-users-cog',_binary '1'),(3,NULL,'Configurations','','fas fa-tools',_binary '1'),(4,3,'System','settings','far fa-circle',_binary '1'),(16,2,'Users','users','far fa-circle',_binary '1'),(18,2,'Clients','users/clients','far fa-circle',_binary '1'),(24,2,'User Types','user-types','far fa-circle',_binary '1');
 /*!40000 ALTER TABLE `menus` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -69,7 +69,7 @@ CREATE TABLE `settings_email` (
 
 LOCK TABLES `settings_email` WRITE;
 /*!40000 ALTER TABLE `settings_email` DISABLE KEYS */;
-INSERT INTO `settings_email` VALUES (1,'Fast Import','sistema@fastimport.net','vm3134199F','mail.ydeal.net.br',587);
+INSERT INTO `settings_email` VALUES (1,'Your Sender Name','yourappemail','yourpassword','mail.yourhost.net.br',587);
 /*!40000 ALTER TABLE `settings_email` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,7 +148,7 @@ CREATE TABLE `user_type_permissions` (
   PRIMARY KEY (`id`),
   KEY `user_type_accesses_FK` (`id_user_type`),
   CONSTRAINT `user_type_accesses_FK` FOREIGN KEY (`id_user_type`) REFERENCES `user_types` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,7 +157,6 @@ CREATE TABLE `user_type_permissions` (
 
 LOCK TABLES `user_type_permissions` WRITE;
 /*!40000 ALTER TABLE `user_type_permissions` DISABLE KEYS */;
-INSERT INTO `user_type_permissions` VALUES (10,'orders',NULL,2),(11,'products',NULL,2);
 /*!40000 ALTER TABLE `user_type_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,7 +233,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,4,'Suporte Ydeal','suporte@ydeal.com.br','25f9e794323b453885f5181f1b624d0b','19.471.199/0001-64','2014-06-01',_binary '1',1,_binary '1','Rec6511e19e85381','2023-09-21 15:00:41','2023-10-05 10:59:25',NULL,NULL,11,NULL,0,NULL),(2,2,'Felipe S. Anjos','vendedor@ydeal.com.br','25f9e794323b453885f5181f1b624d0b','081.680.299-84','1992-11-09',_binary '1',1,_binary '1','','2023-09-21 15:00:41','2023-10-04 16:21:34',NULL,NULL,12,NULL,1,NULL),(6,1,'Guilherme Simas','cliente@ydeal.com.br','25f9e794323b453885f5181f1b624d0b','964.651.489-51','2001-03-03',_binary '1',1,_binary '1',NULL,'2023-09-21 15:00:41','2023-10-04 16:21:34',NULL,NULL,13,NULL,1,NULL),(7,3,'Fabricio Silva','transportador@ydeal.com.br','25f9e794323b453885f5181f1b624d0b','844.651.615-18','1969-05-03',_binary '1',1,_binary '1',NULL,'2023-09-21 15:00:41','2023-10-04 16:21:34',NULL,NULL,NULL,NULL,1,NULL),(8,4,'Luan','luan.ydeal@gmail.com','6ebe76c9fb411be97b3b0d48b791a7c9','342.020.040-43','1990-01-01',_binary '1',1,_binary '1','716550fce1c0bff324ac56b861794fab','2023-10-04 10:45:55','2023-10-09 11:45:50',NULL,NULL,NULL,NULL,1,'2023-10-05 16:37:04'),(9,1,'Thiago Fernando de Camargo ','thiagofc972@gmail.com','5a369292ca3dabd0636d954460003696','319.812.828-58','1999-01-01',_binary '1',0,_binary '1',NULL,'2023-10-03 19:10:02',NULL,NULL,NULL,NULL,NULL,1,NULL);
+INSERT INTO `users` VALUES (1,4,'Suporte Ydeal','suporte@ydeal.com.br','25f9e794323b453885f5181f1b624d0b','19.471.199/0001-64','2014-06-01',_binary '1',1,_binary '1','Rec6511e19e85381','2023-09-21 15:00:41','2023-10-05 10:59:25',NULL,NULL,11,NULL,0,NULL),(6,1,'Guilherme Simas','cliente@ydeal.com.br','25f9e794323b453885f5181f1b624d0b','964.651.489-51','2001-03-03',_binary '1',1,_binary '1',NULL,'2023-09-21 15:00:41','2023-10-04 16:21:34',NULL,NULL,13,NULL,1,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -251,4 +250,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-09 14:14:01
+-- Dump completed on 2023-10-09 14:37:11
