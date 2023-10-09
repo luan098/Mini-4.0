@@ -3,6 +3,7 @@
 namespace Mini\core;
 
 use Mini\controller\EntryController;
+use Mini\controller\ErrorsController;
 use Symfony\Component\Routing\Annotation\Route;
 
 use function Mini\utils\redirect;
@@ -15,7 +16,7 @@ final class Application
 {
     private object $controller;
     private string $url_controller = '';
-    private string|null  $url_action = '';
+    private string|null $url_action = '';
     private array $url_params = [];
 
     public function __construct()
@@ -27,14 +28,14 @@ final class Application
         } else if ($this->isValidController()) {
             $this->loadControllerMethod();
         } else {
-            $this->loadErrorController();
+            $this->loadPageNotFound();
         }
     }
 
     /**
      * Load the default HomeController
      */
-    private function redirectEntryController()
+    private function redirectToLogin()
     {
         redirect(EntryController::ROUTE);
     }
@@ -57,27 +58,37 @@ final class Application
         $controllerClass = "\\Mini\\controller\\" . ucfirst($this->url_controller) . 'Controller';
         $this->controller = new $controllerClass();
 
-        if (method_exists($this->controller ?? '', $this->url_action ?? '')) {
-            if ($this->isValidMethod()) {
-                if ($this->verifyAuthentication()) {
+        if ($this->isValidMethod()) {
+            if ($this->verifyAuthentication()) {
+                if ($this->havePermission()) {
                     $this->invokeControllerMethod();
                 } else {
-                    $this->redirectEntryController();
+                    $this->loadUnauthorizedFound();
                 }
             } else {
-                $this->handleInvalidMethod();
+                $this->redirectToLogin();
             }
         } else {
-            if ($this->isValidMethod()) {
-                if ($this->verifyAuthentication()) {
-                    $this->invokeDefaultMethod();
-                } else {
-                    $this->redirectEntryController();
-                }
-            } else {
-                $this->handleInvalidMethod();
-            }
+            $this->handleInvalidMethod();
         }
+    }
+
+    /**
+     * Check if the controller needs permission and if the user have permission to access him
+     */
+    private function havePermission()
+    {
+        if ($this->verifyNoAuthenticate()) return true;
+
+        if ($this->verifyNoPermissionRequired()) return true;
+
+        if ($_SESSION['user_type']->is_admin) return true;
+
+        $permissionKeyMainRoute = array_search($_GET['pg'] . '/', $_SESSION['permitted_routes']);
+        if ($permissionKeyMainRoute || $permissionKeyMainRoute === 0) return true;
+
+        $permissionKey = array_search($_GET['pg'] . '/' . $this->url_action, $_SESSION['permitted_routes']);
+        return $permissionKey || $permissionKey === 0;
     }
 
     /**
@@ -89,19 +100,6 @@ final class Application
             call_user_func_array(array($this->controller, $this->url_action), $this->url_params);
         } else {
             $this->controller->{$this->url_action}();
-        }
-    }
-
-    /**
-     * Invoke the default index() method of the controller
-     */
-    private function invokeDefaultMethod()
-    {
-        if (strlen($this->url_action ?? '') == 0) {
-            $this->controller->index();
-        } else {
-            array_unshift($this->url_params, $this->url_action);
-            call_user_func_array(array($this->controller, 'index'), $this->url_params);
         }
     }
 
@@ -147,7 +145,7 @@ final class Application
     private function processUrlParts($url)
     {
         $this->url_controller = isset($url[0]) ? $this->formatUrlPart($url[0]) : 'Home';
-        $this->url_action = isset($url[1]) ? $this->formatUrlPart($url[1]) : null;
+        $this->url_action = isset($url[1]) ? $this->formatUrlPart($url[1]) : 'index';
 
         unset($url[0], $url[1]);
         $this->url_params = array_values($url ?? []);
@@ -164,22 +162,28 @@ final class Application
     }
 
     /**
-     * Load the ErrorController
+     * Load the ErrorsController
      */
-    private function loadErrorController()
+    private function loadPageNotFound()
     {
-        if (!isset($_SESSION['user']) || !$_SESSION['user']->id) $this->redirectEntryController();
+        if (!isset($_SESSION['user']) || !$_SESSION['user']->id) $this->redirectToLogin();
+        (new ErrorsController)->notFound();
+    }
 
-        $errorController = "\\Mini\\controller\\ErrorController";
-        $page = new $errorController();
-        $page->index();
+    /**
+     * Load the ErrorsController
+     */
+    private function loadUnauthorizedFound()
+    {
+        if (!isset($_SESSION['user']) || !$_SESSION['user']->id) $this->redirectToLogin();
+        (new ErrorsController)->unauthorized();
     }
 
     private function isValidMethod()
     {
         try {
             $controllerClass = "\\Mini\\controller\\" . ucfirst($this->url_controller) . 'Controller';
-            $reflectionMethod = new \ReflectionMethod($controllerClass, $this->url_action ?? 'index');
+            $reflectionMethod = new \ReflectionMethod($controllerClass, $this->url_action);
 
             // Check for Symfony-like annotations
             $annotations = $reflectionMethod->getAttributes(Route::class);
@@ -190,7 +194,7 @@ final class Application
                 }
             }
         } catch (\Throwable $th) {
-            $this->loadErrorController();
+            $this->loadPageNotFound();
             exit;
         }
 
@@ -199,9 +203,18 @@ final class Application
 
     private function verifyAuthentication()
     {
+        $noAuthenticate = $this->verifyNoAuthenticate();
+
+        if ($noAuthenticate || (isset($_SESSION['user']) && $_SESSION['user']->id)) return true;
+
+        return false;
+    }
+
+    private function verifyNoAuthenticate()
+    {
         $controllerClass = "\\Mini\\controller\\" . ucfirst($this->url_controller) . 'Controller';
         $reflectionClass = new \ReflectionClass($controllerClass);
-        $reflectionMethod = new \ReflectionMethod($controllerClass, $this->url_action ?? 'index');
+        $reflectionMethod = new \ReflectionMethod($controllerClass, $this->url_action);
 
         $classAnnotations = $reflectionClass->getAttributes(Route::class);
         foreach ($classAnnotations as $annotation) {
@@ -219,7 +232,30 @@ final class Application
             }
         }
 
-        if (isset($_SESSION['user']) && $_SESSION['user']->id) return true;
+        return false;
+    }
+
+    private function verifyNoPermissionRequired()
+    {
+        $controllerClass = "\\Mini\\controller\\" . ucfirst($this->url_controller) . 'Controller';
+        $reflectionClass = new \ReflectionClass($controllerClass);
+        $reflectionMethod = new \ReflectionMethod($controllerClass, $this->url_action);
+
+        $classAnnotations = $reflectionClass->getAttributes(Route::class);
+        foreach ($classAnnotations as $annotation) {
+            $route = $annotation->newInstance();
+            if (in_array('NO-PERMISSIONS-REQUIRED', $route->getDefaults())) {
+                return true;
+            }
+        }
+
+        $routeAnnotations = $reflectionMethod->getAttributes(Route::class);
+        foreach ($routeAnnotations as $annotation) {
+            $route = $annotation->newInstance();
+            if (in_array('NO-PERMISSIONS-REQUIRED', $route->getDefaults())) {
+                return true;
+            }
+        }
 
         return false;
     }

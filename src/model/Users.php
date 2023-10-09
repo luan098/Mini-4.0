@@ -137,6 +137,24 @@ final class Users extends DTModel
         unset($userForSession->password);
         $_SESSION['user'] = $userForSession;
 
+        $_SESSION['user_type'] = (new UserTypes)->findById($userForSession->id_user_type);
+
+        $_SESSION['permitted_routes'] = array_column((new UserTypePermissions)->findFullRouteByIdUserType($userForSession->id_user_type), 'route_full');
+
         return !!$_SESSION['user'];
+    }
+    public function findAdminsToMail(): array
+    {
+        $sql = "SELECT 
+                    u.*
+                FROM
+                    $this->table u
+                WHERE
+                    u.receive_emails
+                    and u.id_user_type = " . UserTypes::ADMINISTRATOR;
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 }

@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use function Mini\utils\redirect;
 use function Mini\utils\toastResult;
 
+#[Route(name: 'Settings')]
 class SettingsController extends FrontController
 {
     const ROUTE = 'settings';
@@ -22,7 +23,7 @@ class SettingsController extends FrontController
         parent::__construct();
     }
 
-    #[Route(methods: ['GET'])]
+    #[Route(name: 'General Settings', methods: ['GET'])]
     public function index()
     {
         $settingsGeneral = (new SettingsGeneral)->findById(1);
@@ -31,7 +32,7 @@ class SettingsController extends FrontController
     }
     
 
-    #[Route(methods: ['GET'])]
+    #[Route(name: 'Email Settings', methods: ['GET'])]
     public function email()
     {
         $settingsEmail = (new SettingsEmail)->findById(1);
@@ -39,7 +40,7 @@ class SettingsController extends FrontController
         require APP . "view/{$this->route}/index.php";
     }
 
-    #[Route(methods: ['POST'])]
+    #[Route(name: 'Edit Email Settings', methods: ['POST'])]
     public function handleEditEmail()
     {
         $result = (new SettingsEmail)->update([
@@ -59,7 +60,7 @@ class SettingsController extends FrontController
         redirect($this->route);
     }
     
-    #[Route(methods: ['POST'])]
+    #[Route(name: 'Save Edition Email Settings', methods: ['POST'])]
     public function handleEditGeneral()
     {
         $result = (new SettingsGeneral)->update([

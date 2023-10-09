@@ -5,6 +5,7 @@ namespace Mini\controller;
 use Mini\core\FrontController;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route(defaults: ['NO-PERMISSIONS-REQUIRED'])]
 class ProfileController extends FrontController
 {
     const ROUTE = 'profile';

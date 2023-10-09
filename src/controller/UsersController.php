@@ -3,6 +3,10 @@
 namespace Mini\controller;
 
 use Mini\core\FrontController;
+use Mini\model\ChatConversations;
+use Mini\model\Orders;
+use Mini\model\Products;
+use Mini\model\Subscriptions;
 use Mini\model\Uploads;
 use Mini\model\Users;
 use Mini\model\UserTypes;
@@ -11,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use function Mini\utils\redirect;
 use function Mini\utils\toastResult;
 
+#[Route(name: 'Users')]
 class UsersController extends FrontController
 {
     const ROUTE = 'users';
@@ -24,7 +29,7 @@ class UsersController extends FrontController
         parent::__construct();
     }
 
-    #[Route(methods: ['GET'])]
+    #[Route(name: 'List', methods: ['GET'])]
     public function index()
     {
         $userTypes = (new UserTypes)->findBy(['status' => 1])->data;
@@ -32,7 +37,7 @@ class UsersController extends FrontController
         require APP . "view/{$this->route}/index.php";
     }
 
-    #[Route(methods: ['GET'])]
+    #[Route(name: 'List Clients', methods: ['GET'])]
     public function clients()
     {
         $_GET['id_user_type'] = UserTypes::CUSTOMER;
@@ -40,7 +45,7 @@ class UsersController extends FrontController
         $this->index();
     }
 
-    #[Route(methods: ['GET'])]
+    #[Route(name: 'Addition Screen', methods: ['GET'])]
     public function add()
     {
         $userTypes = (new UserTypes)->findBy()->data;
@@ -48,7 +53,7 @@ class UsersController extends FrontController
         require APP . "view/{$this->route}/user.php";
     }
 
-    #[Route(methods: ['POST'])]
+    #[Route(name: 'Save Addition', methods: ['POST'])]
     public function handleAdd()
     {
         $result = $this->model->insert([
@@ -60,7 +65,6 @@ class UsersController extends FrontController
             'terms' => $_POST['terms'],
             'approved' => $_POST['approved'],
             'password' => md5($_POST['password']),
-            'created_by' => $_SESSION['user']->id,
         ]);
 
         toastResult($result);
@@ -69,7 +73,7 @@ class UsersController extends FrontController
         redirect("$this->route/edit/$result->lastId");
     }
 
-    #[Route(methods: ['GET'])]
+    #[Route(name: 'Edition Screen', methods: ['GET'])]
     public function edit(int $idUser)
     {
         $user = $this->model->findById($idUser);
@@ -78,7 +82,7 @@ class UsersController extends FrontController
         require APP . "view/{$this->route}/user.php";
     }
 
-    #[Route(methods: ['POST'])]
+    #[Route(name: 'Save Edition', methods: ['POST'])]
     public function handleEdit(int $idUser)
     {
         $result = $this->model->update([
@@ -90,7 +94,6 @@ class UsersController extends FrontController
             'approved' => $_POST['approved'] ?? 0,
             'terms' => $_POST['terms'] ?? 0,
             'status' => $_POST['status'] ?? 0,
-            'updated_by' => $_SESSION['user']->id,
         ], 'id', $idUser);
 
         if (isset($_POST['password']) && $_POST['password']) {
@@ -102,7 +105,7 @@ class UsersController extends FrontController
         redirect("$this->route/edit/$idUser");
     }
 
-    #[Route(methods: ['GET'])]
+    #[Route(name: 'Cover Image', methods: ['GET'])]
     public function cover(int $idUser)
     {
         $user = $this->model->findById($idUser);
@@ -111,7 +114,7 @@ class UsersController extends FrontController
         require APP . "view/{$this->route}/user.php";
     }
 
-    #[Route(methods: ['POST'])]
+    #[Route(name: 'Add/Edit Cover Image', methods: ['POST'])]
     public function handleAddUpdateCover(int $idUser)
     {
         $user = $this->model->findById($idUser);
