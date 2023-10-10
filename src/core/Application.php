@@ -14,178 +14,109 @@ require APP . 'utils/Functions.php';
 
 final class Application
 {
-    private object $controller;
-    private string $url_controller = '';
-    private string|null $url_action = '';
-    private array $url_params = [];
+    private $route = '';
+    private $subRoute = '';
+    private $params = [];
 
     public function __construct()
     {
-        $this->splitUrl();
+        $this->processUrlParts();
+        $this->handleRequest();
+    }
 
-        if (strtolower($this->url_controller) == 'datatable') {
+    private function handleRequest()
+    {
+        if (strtolower($this->route) == 'datatable') {
             $this->loadAjaxMasterController();
-        } else if ($this->isValidController()) {
-            $this->loadControllerMethod();
+        } elseif ($this->isValidController()) {
+            if ($this->isValidMethod()) {
+                if ($this->verifyAuthentication()) {
+                    if (PermissionChecker::havePermission($this->route, $this->subRoute)) {
+                        $this->invokeControllerMethod();
+                    } else {
+                        $this->loadUnauthorizedFound();
+                    }
+                } else {
+                    $this->redirectToLogin();
+                }
+            } else {
+                $this->handleInvalidMethod();
+            }
         } else {
             $this->loadPageNotFound();
         }
     }
 
-    /**
-     * Load the default HomeController
-     */
     private function redirectToLogin()
     {
         redirect(EntryController::ROUTE);
     }
 
-    /**
-     * Load the AjaxMasterController for 'datatable'
-     */
     private function loadAjaxMasterController()
     {
         $controller = '\\Mini\\core\\AjaxMasterController';
         $controller = new $controller();
-        call_user_func_array(array($controller, $this->url_action), ['model', $this->url_action, 'getDatatable']);
+        call_user_func_array(array($controller, $this->subRoute), ['model', $this->subRoute, 'getDatatable']);
     }
 
-    /**
-     * Check if the controller exists and load it
-     */
-    private function loadControllerMethod()
-    {
-        $controllerClass = "\\Mini\\controller\\" . ucfirst($this->url_controller) . 'Controller';
-        $this->controller = new $controllerClass();
-
-        if ($this->isValidMethod()) {
-            if ($this->verifyAuthentication()) {
-                if ($this->havePermission()) {
-                    $this->invokeControllerMethod();
-                } else {
-                    $this->loadUnauthorizedFound();
-                }
-            } else {
-                $this->redirectToLogin();
-            }
-        } else {
-            $this->handleInvalidMethod();
-        }
-    }
-
-    /**
-     * Check if the controller needs permission and if the user have permission to access him
-     */
-    private function havePermission()
-    {
-        if ($this->verifyNoAuthenticate()) return true;
-
-        if ($this->verifyNoPermissionRequired()) return true;
-
-        if ($_SESSION['user_type']->is_admin) return true;
-
-        $permissionKeyMainRoute = array_search($_GET['pg'] . '/', $_SESSION['permitted_routes']);
-        if ($permissionKeyMainRoute || $permissionKeyMainRoute === 0) return true;
-
-        $permissionKey = array_search($_GET['pg'] . '/' . $this->url_action, $_SESSION['permitted_routes']);
-        return $permissionKey || $permissionKey === 0;
-    }
-
-    /**
-     * Invoke the controller method with or without parameters
-     */
     private function invokeControllerMethod()
     {
-        if (!empty($this->url_params)) {
-            call_user_func_array(array($this->controller, $this->url_action), $this->url_params);
+        $controllerClass = "\\Mini\\controller\\" . ucfirst($this->route) . 'Controller';
+        $controller = new $controllerClass();
+
+        if (!empty($this->params)) {
+            call_user_func_array(array($controller, $this->subRoute), $this->params);
         } else {
-            $this->controller->{$this->url_action}();
+            $controller->{$this->subRoute}();
         }
     }
 
-    /**
-     * Check if the controller file exists
-     */
     private function isValidController()
     {
-        return file_exists(APP . "controller/" . ucfirst($this->url_controller) . 'Controller.php');
+        return file_exists(APP . "controller/" . ucfirst($this->route) . 'Controller.php');
     }
 
-    /**
-     * Get and split the URL
-     */
-    private function splitUrl()
+    private function processUrlParts()
     {
-        if (isset($_GET['url'])) {
-            $url = trim($_GET['url'], '/');
-            $url = filter_var($url, FILTER_SANITIZE_URL);
-            $url = explode('/', $url);
+        $router = new Router($_GET['url']);
 
-            // Remove certain keywords from URL
-            $this->removeKeywords($url);
-        }
+        $route = $router->getRoute();
+        $subRoute = $router->getSubRoute();
 
-        $this->processUrlParts($url);
+        $this->route = $route ? self::formatUrlPart($route) : 'Home';
+        $this->subRoute = $subRoute ? self::formatUrlPart($subRoute) : 'index';
+        $this->params = $router->getParams();
     }
 
-    /**
-     * Remove certain keywords from the URL
-     */
-    private function removeKeywords(&$url)
-    {
-        $keywords = ['ajax', 'api', 'app'];
-        if (in_array(strtolower($url[0]), $keywords)) {
-            array_shift($url);
-        }
-    }
-
-    /**
-     * Process URL parts and set controller, action, and parameters
-     */
-    private function processUrlParts($url)
-    {
-        $this->url_controller = isset($url[0]) ? $this->formatUrlPart($url[0]) : 'Home';
-        $this->url_action = isset($url[1]) ? $this->formatUrlPart($url[1]) : 'index';
-
-        unset($url[0], $url[1]);
-        $this->url_params = array_values($url ?? []);
-    }
-
-    /**
-     * Format a URL part to be used as a controller or action name
-     */
-    private function formatUrlPart($part)
+    public static function formatUrlPart($part)
     {
         return implode("", array_map(function ($fragment) {
             return ucfirst($fragment);
         }, explode('-', $part)));
     }
 
-    /**
-     * Load the ErrorsController
-     */
     private function loadPageNotFound()
     {
-        if (!isset($_SESSION['user']) || !$_SESSION['user']->id) $this->redirectToLogin();
+        if (!isset($_SESSION['user']) || !$_SESSION['user']->id) {
+            $this->redirectToLogin();
+        }
         (new ErrorsController)->notFound();
     }
 
-    /**
-     * Load the ErrorsController
-     */
     private function loadUnauthorizedFound()
     {
-        if (!isset($_SESSION['user']) || !$_SESSION['user']->id) $this->redirectToLogin();
+        if (!isset($_SESSION['user']) || !$_SESSION['user']->id) {
+            $this->redirectToLogin();
+        }
         (new ErrorsController)->unauthorized();
     }
 
     private function isValidMethod()
     {
         try {
-            $controllerClass = "\\Mini\\controller\\" . ucfirst($this->url_controller) . 'Controller';
-            $reflectionMethod = new \ReflectionMethod($controllerClass, $this->url_action);
+            $controllerClass = "\\Mini\\controller\\" . ucfirst($this->route) . 'Controller';
+            $reflectionMethod = new \ReflectionMethod($controllerClass, $this->subRoute);
 
-            // Check for Symfony-like annotations
             $annotations = $reflectionMethod->getAttributes(Route::class);
             foreach ($annotations as $annotation) {
                 $route = $annotation->newInstance();
@@ -203,18 +134,19 @@ final class Application
 
     private function verifyAuthentication()
     {
-        $noAuthenticate = $this->verifyNoAuthenticate();
+        $noAuthenticate = $this->verifyNoAuthenticate($this->route, $this->subRoute);
 
-        if ($noAuthenticate || (isset($_SESSION['user']) && $_SESSION['user']->id)) return true;
+        if ($noAuthenticate || (isset($_SESSION['user']) && $_SESSION['user']->id)) {
+            return true;
+        }
 
         return false;
     }
 
-    private function verifyNoAuthenticate()
+    private static function verifyNoAuthenticate(string $urlController, string $urlAction)
     {
-        $controllerClass = "\\Mini\\controller\\" . ucfirst($this->url_controller) . 'Controller';
+        $controllerClass = "\\Mini\\controller\\" . ucfirst($urlController) . 'Controller';
         $reflectionClass = new \ReflectionClass($controllerClass);
-        $reflectionMethod = new \ReflectionMethod($controllerClass, $this->url_action);
 
         $classAnnotations = $reflectionClass->getAttributes(Route::class);
         foreach ($classAnnotations as $annotation) {
@@ -224,35 +156,12 @@ final class Application
             }
         }
 
+        $reflectionMethod = new \ReflectionMethod($controllerClass, $urlAction);
+
         $routeAnnotations = $reflectionMethod->getAttributes(Route::class);
         foreach ($routeAnnotations as $annotation) {
             $route = $annotation->newInstance();
             if (in_array('NO-AUTHENTICATE', $route->getDefaults())) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private function verifyNoPermissionRequired()
-    {
-        $controllerClass = "\\Mini\\controller\\" . ucfirst($this->url_controller) . 'Controller';
-        $reflectionClass = new \ReflectionClass($controllerClass);
-        $reflectionMethod = new \ReflectionMethod($controllerClass, $this->url_action);
-
-        $classAnnotations = $reflectionClass->getAttributes(Route::class);
-        foreach ($classAnnotations as $annotation) {
-            $route = $annotation->newInstance();
-            if (in_array('NO-PERMISSIONS-REQUIRED', $route->getDefaults())) {
-                return true;
-            }
-        }
-
-        $routeAnnotations = $reflectionMethod->getAttributes(Route::class);
-        foreach ($routeAnnotations as $annotation) {
-            $route = $annotation->newInstance();
-            if (in_array('NO-PERMISSIONS-REQUIRED', $route->getDefaults())) {
                 return true;
             }
         }
