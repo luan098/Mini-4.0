@@ -33,6 +33,7 @@ if (empty($_GET['pg'])) {
     if (strpos($url, '/') === 0) $url = substr($url, 1);
     $pgs = explode('/', $url);
     foreach ($pgs as $key => $pg) {
+        if ($key > 0 && !$pg) continue;
         $pg = explode("?", $pg)[0];
         $_GET['pg' .  ($key > 0 ? $key + 1 : '')] = $pg ? $pg : 'home';
     }
