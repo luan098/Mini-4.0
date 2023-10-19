@@ -27,3 +27,8 @@ jobs:
             - .vscode
             - .vscode/**
             - config.php
+            - config.php.example
+            - var
+            - var/**
+            - public/uploads
+            - public/uploads/**
