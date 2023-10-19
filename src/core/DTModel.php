@@ -9,8 +9,12 @@ use InvalidArgumentException;
  */
 abstract class DTModel extends Model
 {
-    public function __construct(string $table)
+    protected array $joins = [];
+
+    public function __construct(string $table, array $joins = [])
     {
+        $this->joins = $joins;
+
         parent::__construct($table);
     }
 
@@ -131,7 +135,6 @@ abstract class DTModel extends Model
         ];
     }
 
-    /** @deprecated joins disabled at moment */
     function buildJoin($joins, $justJoinClause = false)
     {
         $clause = "";
@@ -139,7 +142,7 @@ abstract class DTModel extends Model
 
         foreach ($joins as $join) {
             $table = property_exists($join, 'table') ? $join->table : null;
-            $on = property_exists($join, 'where') ? $join->where : null;
+            $on = property_exists($join, 'on') ? $join->on : null;
 
             foreach ($join->columns ?? [] as $cName) {
                 $columnsJoined[] = "{$join->table}.{$cName} as {$join->table}_{$cName}";

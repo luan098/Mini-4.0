@@ -32,8 +32,6 @@ final class ControllerScanner
 
     public function scanControllers(): array
     {
-        $controllers = [];
-
         // Get all PHP files in the controller directory
         $files = glob($this->controllerDirectory . '/*.php');
 

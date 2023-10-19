@@ -96,8 +96,8 @@ class MenuComponent
         $route = $router->getRoute();
         $subRoute = $router->getSubRoute() ?: 'index';
 
-        $route = $route ? Application::formatUrlPart($route) : 'Home';
-        $subRoute = $subRoute ? Application::formatUrlPart($subRoute) : 'index';
+        $route = ucfirst($route ? Application::formatUrlPart($route) : 'Home');
+        $subRoute = lcfirst($subRoute ? Application::formatUrlPart($subRoute) : 'index');
 
         if (!PermissionChecker::havePermission($route, $subRoute)) continue;
       } 

@@ -25,7 +25,7 @@ $permissionsFullRouteArray = array_column($permissions, 'route_full');
                 <tr>
                     <td class="col-2">
                         <div class="custom-control custom-switch d-flex justify-content-center">
-                            <input <?= $checked ?> type="checkbox" class="custom-control-input check-permission" id="customSwitch<?= "$route->route/$route->sub_route" ?>" value="<?= $route->route ? $route->route : "$route->route/$route->sub_route" ?>" name="permission">
+                            <input <?= $checked ?> type="checkbox" class="custom-control-input check-permission" id="customSwitch<?= "$route->route/$route->sub_route" ?>" value="<?= !$route->sub_route ? $route->route : "$route->route/$route->sub_route" ?>" name="permission">
                             <label class="custom-control-label" for="customSwitch<?= "$route->route/$route->sub_route" ?>"></label>
                         </div>
                     </td>
