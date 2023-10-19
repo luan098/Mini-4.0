@@ -7,43 +7,35 @@ use Mini\model\UserTypes;
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <base href="<?= URL ?>" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title class="notranslate"><?= APP_NAME ?> - Register</title>
+    <title class="notranslate"><?= APP_NAME ?> - Registrar</title>
     <link rel="shortcut icon" href="<?= './images/config/favicon.png' ?>" type="image/x-icon" />
     <?= $this->renderStyle() ?>
     <?= $this->renderScript(FrontController::RENDER_CONFIG_HEADER_SCRIPT) ?>
-    <?php require_once APP . "view/_templates/js_header_script.php" ?>
+    <?php require_once APP . 'view/_templates/components/js-header-script.php' ?>
 </head>
 
 <body class="hold-transition login-page">
     <div class="register-box">
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="" class="h1 notranslate"><b><?= APP_NAME ?></b></a>
+                <a href="" class="h1"><b><?= APP_NAME ?></b></a>
                 
             </div>
             <div class="card-body">
-                <p class="login-box-msg">Register a new account, after registration wait until approval.</p>
+                <p class="login-box-msg">Após o registro aguarde a aprovação do seu acesso.</p>
 
                 <form action="" method="post" id="register">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="name" placeholder="Full name *" required>
+                        <input type="text" class="form-control" name="name" placeholder="Nome Completo *" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="cpf_cnpj" id="cpfcnpj" placeholder="CPF or CNPJ *" required>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="far fa-id-card"></span>
                             </div>
                         </div>
                     </div>
@@ -56,7 +48,7 @@ use Mini\model\UserTypes;
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" name="password" placeholder="Password *" autocomplete="new-password" required>
+                        <input type="password" class="form-control" name="password" placeholder="Senha *" autocomplete="new-password" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -64,18 +56,10 @@ use Mini\model\UserTypes;
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password *" autocomplete="new-password" required>
+                        <input type="password" class="form-control" name="confirm_password" placeholder="Confirme sua senha *" autocomplete="new-password" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="date_birth" id="datemask" placeholder="Born Date *" required>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-calendar-alt"></span>
                             </div>
                         </div>
                     </div>
@@ -96,17 +80,16 @@ use Mini\model\UserTypes;
                             <div class="icheck-primary">
                                 <input type="checkbox" id="agreeTerms" name="terms" value="1" required>
                                 <label for="agreeTerms">
-                                    I agree to the <a href="" data-toggle="modal" data-target="#modal-lg">terms</a> *
+                                    Eu concordo com os <a href="" data-toggle="modal" data-target="#modal-lg">Termos</a> *
                                 </label>
                             </div>
                         </div>
                         <div class="col-12 mb-3">
-                            <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
-                            <button type="submit" class="btn btn-primary btn-block" id="solicitar-acesso">Register</button>
+                            <button type="submit" class="btn btn-primary btn-block" id="solicitar-acesso">Registrar</button>
                         </div>
                     </div>
                 </form>
-                <a href="entrar" class="text-center">I already have a membership</a>
+                <a href="entrar" class="text-center">Eu já tenho uma conta</a>
             </div>
         </div>
     </div>
@@ -133,17 +116,6 @@ use Mini\model\UserTypes;
     <?= $this->renderScript(FrontController::RENDER_CONFIG_FOOTER_SCRIPT) ?>
 
     <script>
-        $("input[id*='cpfcnpj']").inputmask({
-            mask: ['999.999.999-99', '99.999.999/9999-99'],
-            keepStatic: true
-        });
-
-        $("input[id*='datemask']").inputmask({
-            mask: ['99/99/9999'],
-            keepStatic: true
-        });
-
-
         $('#register').on('submit', (e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -169,7 +141,7 @@ use Mini\model\UserTypes;
                 error: function() {
                     Toast.fire({
                         icon: 'question',
-                        title: 'Oops, an error occurred, try again later.'
+                        title: 'Oops, ocorreu um erro, tente mais tarde.'
                     });
                 }
             });

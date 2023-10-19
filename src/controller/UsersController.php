@@ -3,10 +3,6 @@
 namespace Mini\controller;
 
 use Mini\core\FrontController;
-use Mini\model\ChatConversations;
-use Mini\model\Orders;
-use Mini\model\Products;
-use Mini\model\Subscriptions;
 use Mini\model\Uploads;
 use Mini\model\Users;
 use Mini\model\UserTypes;
@@ -29,7 +25,7 @@ class UsersController extends FrontController
         parent::__construct();
     }
 
-    #[Route(name: 'List', methods: ['GET'])]
+    #[Route(name: 'Listar', methods: ['GET'])]
     public function index()
     {
         $userTypes = (new UserTypes)->findBy(['status' => 1])->data;
@@ -37,7 +33,7 @@ class UsersController extends FrontController
         require APP . "view/{$this->route}/index.php";
     }
 
-    #[Route(name: 'List Clients', methods: ['GET'])]
+    #[Route(name: 'Listar Clients', methods: ['GET'])]
     public function clients()
     {
         $_GET['id_user_type'] = UserTypes::CUSTOMER;
@@ -60,8 +56,6 @@ class UsersController extends FrontController
             'id_user_type' => $_POST['id_user_type'],
             'name' => $_POST['name'],
             'email' => $_POST['email'],
-            'cpf_cnpj' => $_POST['cpf_cnpj'],
-            'date_birth' => $_POST['date_birth'],
             'terms' => $_POST['terms'],
             'approved' => $_POST['approved'],
             'password' => md5($_POST['password']),
@@ -89,8 +83,6 @@ class UsersController extends FrontController
             'id_user_type' => $_POST['id_user_type'],
             'name' => $_POST['name'],
             'email' => $_POST['email'],
-            'cpf_cnpj' => $_POST['cpf_cnpj'],
-            'date_birth' => $_POST['date_birth'],
             'approved' => $_POST['approved'] ?? 0,
             'terms' => $_POST['terms'] ?? 0,
             'status' => $_POST['status'] ?? 0,

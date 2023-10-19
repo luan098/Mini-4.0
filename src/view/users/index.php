@@ -12,12 +12,12 @@ require APP . 'view/_templates/header.php' ?>
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1> Users </h1>
+                    <h1> Usuários </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= HomeController::ROUTE ?>">Home</a></li>
-                        <li class="breadcrumb-item active">Users</li>
+                        <li class="breadcrumb-item active">Usuários</li>
                     </ol>
                 </div>
             </div>
@@ -30,14 +30,14 @@ require APP . 'view/_templates/header.php' ?>
                 <div class="col-12 col-sm-12">
                     <div class="card">
                         <div class="card-header vertical-middle">
-                            <h3 class="card-title">List</h3>
-                            <a href="<?= UsersController::ROUTE . "/add" ?>" class="btn btn-info float-right"> <i class="fas fa-plus"></i> Add Item</a>
+                            <h3 class="card-title">Listar</h3>
+                            <a href="<?= UsersController::ROUTE . "/add" ?>" class="btn btn-info float-right"> <i class="fas fa-plus"></i> Adicionar Item</a>
                         </div>
                         <div class="card-body">
                             <form action="<?= $this->route ?>" method="GET">
                                 <div class="card <?= isset($_GET['filtered']) && $_GET['filtered'] ? '' : 'collapsed-card' ?>" style="cursor:pointer;">
                                     <div class="card-header" data-card-widget="collapse">
-                                        <h3 class="card-title">Filters</h3>
+                                        <h3 class="card-title">Filtrar</h3>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool">
                                                 <i class="fas fa-plus"></i>
@@ -49,7 +49,7 @@ require APP . 'view/_templates/header.php' ?>
                                         <div class="row p-2 m-0 YP-datatable-filters">
                                             <div class="col-sm-2">
                                                 <div class="form-group">
-                                                    <label for="id_user_type">Type</label>
+                                                    <label for="id_user_type">Tipo</label>
                                                     <select class="w-100" name="id_user_type">
                                                         <option value="">All</option>
                                                         <?php foreach ($userTypes as $type) : ?>
@@ -62,7 +62,7 @@ require APP . 'view/_templates/header.php' ?>
                                             </div>
                                             <div class="col-sm-2">
                                                 <div class="form-group">
-                                                    <label for="approved">Approved</label>
+                                                    <label for="approved">Aprovado</label>
                                                     <select class="form-control" name="approved">
                                                         <option value="">All</option>
                                                         <option value="1" <?= (isset($_GET['approved']) && $_GET['approved'] == '1' ? "selected" : ''); ?>>Approved</option>
@@ -74,16 +74,16 @@ require APP . 'view/_templates/header.php' ?>
                                                 <div class="form-group">
                                                     <label for="status">Status</label>
                                                     <select class="form-control" name="status">
-                                                        <option value="1" <?= (isset($_GET['status']) && $_GET['status'] == '1' ? "selected" : ''); ?>>Active</option>
-                                                        <option value="0" <?= (isset($_GET['status']) && $_GET['status'] == '0' ? "selected" : ''); ?>>Inactive</option>
+                                                        <option value="1" <?= (isset($_GET['status']) && $_GET['status'] == '1' ? "selected" : ''); ?>>Ativo</option>
+                                                        <option value="0" <?= (isset($_GET['status']) && $_GET['status'] == '0' ? "selected" : ''); ?>>Inativo</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="card-footer text-right">
-                                        <a href="<?= $this->route ?>" class="btn btn-warning"><i class="fa fa-eraser mr-1"></i> Remove</a>
-                                        <button type="submit" class="btn pull-right btn-primary"><i class="fa fa-filter mr-1"></i> Apply</button>
+                                        <a href="<?= $this->route ?>" class="btn btn-warning"><i class="fa fa-eraser mr-1"></i> Remover</a>
+                                        <button type="submit" class="btn pull-right btn-primary"><i class="fa fa-filter mr-1"></i> Aplicar</button>
                                     </div>
                                 </div>
                             </form>
@@ -103,25 +103,24 @@ require APP . 'view/_templates/header.php' ?>
         ],
         columns: [{
                 title: "ID",
-                className: "text-center notranslate",
+                className: "text-center",
                 data: "id"
             },
             {
-                className: "notranslate",
-                title: "Name",
+                title: "Nome",
                 data: "name"
             },
             {
-                title: "Type",
+                title: "Tipo",
                 data: "user_type_name",
                 field: "(select ut.name from <?= UserTypes::TABLE ?> ut where ut.id = <?= Users::TABLE ?>.id_user_type)"
             },
             {
-                title: "Approval",
+                title: "Aprovação",
                 data: "approved",
                 className: "text-center",
                 render: (field, display, row, settings) => {
-                    return !!+field ? `<span class="badge badge-success">Approved</span>` : `<span class="badge badge-danger">Pending</span>`;
+                    return !!+field ? `<span class="badge badge-success">Aprovado</span>` : `<span class="badge badge-danger">Pendente</span>`;
                 },
             },
             {
@@ -129,21 +128,18 @@ require APP . 'view/_templates/header.php' ?>
                 data: "status",
                 className: "text-center",
                 render: (field, display, row, settings) => {
-                    return !!+field ? `<span class="badge badge-success">Active</span>` : `<span class="badge badge-danger">Inactive</span>`;
+                    return !!+field ? `<span class="badge badge-success">Ativo</span>` : `<span class="badge badge-danger">Inativo</span>`;
                 },
             },
             {
-                title: "Actions",
+                title: "Ações",
                 searchable: false,
                 orderable: false,
                 className: "text-center",
                 data: "id",
                 render: (data, display, row, settings) => {
                     return `
-                        <a class="btn btn-primary btn-md" title="Edit" href="<?= UsersController::ROUTE . "/edit/" ?>${data}"><i class="fa fa-edit"></i></a>
-                        <?php if (in_array($_SESSION['user']->id_user_type, [UserTypes::ADMINISTRATOR])) : ?>
-                            <a class="btn btn-primary btn-md" target="_blank" title="Resume" href="<?= UsersController::ROUTE . "/resume/" ?>${data}"><i class="fa fa-eye"></i></a> 
-                        <?php endif ?>
+                        <a class="btn btn-primary btn-md" title="Editar" href="<?= UsersController::ROUTE . "/edit/" ?>${data}"><i class="fa fa-edit"></i></a>
                     `;
                 },
             },

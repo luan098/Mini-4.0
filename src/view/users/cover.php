@@ -10,21 +10,21 @@ use Mini\model\Users;
         <div class="row">
             <div class="col-sm-10">
                 <div class="form-group">
-                    <label for="cover">Cover</label>
+                    <label for="cover">Capa</label>
                     <div class="input-group">
                         <div class="input-group-append">
-                            <span class="input-group-text">Images</span>
+                            <span class="input-group-text">Imagens</span>
                         </div>
                         <div class="custom-file">
                             <input id="imageInput" type="file" multiple="false" accept=".jpg, .jpeg, .png, .gif, .webp" class="custom-file-input" aria-describedby="send-cover" name="file" required>
-                            <label class="custom-file-label" for="file" data-browse="Search">Select a file...</label>
+                            <label class="custom-file-label" for="file" data-browse="Search">Selecione um arquivo...</label>
                         </div>
                     </div>
                     <span id="errorMsg" class="error text-red"></span>
                 </div>
             </div>
             <div class="col-sm-2" style="margin-top: 32px !important;">
-                <button type="submit" class="btn btn-primary float-right">Upload</button>
+                <button type="submit" class="btn btn-primary float-right">Enviar</button>
             </div>
         </div>
     </form>
@@ -38,7 +38,7 @@ use Mini\model\Users;
             </div>
         </div>
         <div class="col-sm-12 mt-3">
-            <a href="<?= UsersController::ROUTE ?>" class="btn btn-default">Back</a>
+            <a href="<?= UsersController::ROUTE ?>" class="btn btn-default">Voltar</a>
         </div>
     </div>
 </div>
@@ -54,9 +54,9 @@ use Mini\model\Users;
             let errorMsgText = "";
 
             if (input.files.length === 0) {
-                errorMsgText = "Please select an image file.";
+                errorMsgText = "Por favor selecione um arquivo de imagem.";
             } else if (input.files.length > maxFilesAllowed) {
-                errorMsgText = "You can select a maximum of " + maxFilesAllowed + " files.";
+                errorMsgText = "Você pode selecionar até " + maxFilesAllowed + " arquivo.";
             }
 
             Array.from(input.files).forEach(file => {
@@ -64,9 +64,9 @@ use Mini\model\Users;
                 const fileSize = file.size;
                 const fileExtension = fileName.split(".").pop().toLowerCase();
                 if (!allowedExtensions.includes(fileExtension)) {
-                    errorMsgText = "Invalid file format. Only JPG, JPEG, PNG, WEBP, and GIF are allowed.";
+                    errorMsgText = "Formato de imagem inválido. Somente JPG, JPEG, PNG, WEBP, e GIF são permitidos.";
                 } else if (fileSize > maxFileSize) {
-                    errorMsgText = "File size exceeds the maximum limit (100 KB).";
+                    errorMsgText = "O tamanho do arquivo excede o limite permitido (100 KB).";
                 }
             });
 

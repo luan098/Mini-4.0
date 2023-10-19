@@ -155,14 +155,12 @@ class EntryController extends FrontController
 
         $result = (new Users)->insert([
             'name' => $_POST['name'],
-            'cpf_cnpj' => $_POST['cpf_cnpj'],
             'email' => $_POST['email'],
             'password' => md5($_POST['password']),
-            'date_birth' => $_POST['date_birth'],
             'id_user_type' => $_POST['id_user_type'],
             'terms' => $_POST['terms'],
-            'created_by' => $_POST['created_by'],
         ]);
+        
         if ($result->error) returnJson(['error' => true, 'message' => $result->message]);
 
         toast('success', 'Account created successful, await till the the team aprove your account.');

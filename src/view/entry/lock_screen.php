@@ -6,18 +6,18 @@ use Mini\core\FrontController;
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <base href="<?= URL ?>" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title class="notranslate"><?= APP_NAME ?> - Lock Screen</title>
+    <title class="notranslate"><?= APP_NAME ?> - Tela de Bloqueio</title>
     <link rel="shortcut icon" href="<?= './images/config/favicon.png' ?>" type="image/x-icon" />
     <?= $this->renderStyle() ?>
     <?= $this->renderScript(FrontController::RENDER_CONFIG_HEADER_SCRIPT) ?>
 
-    <?php require_once APP . "view/_templates/js_header_script.php" ?>
+    <?php require_once APP . 'view/_templates/components/js-header-script.php' ?>
 </head>
 
 
@@ -36,7 +36,7 @@ use Mini\core\FrontController;
             </div>
             <form class="lockscreen-credentials" method="_POST" id="lock-screen">
                 <div class="input-group">
-                    <input type="password" class="form-control" placeholder="Password" name="password" autofocus>
+                    <input type="password" class="form-control" placeholder="Senha" name="password" autofocus>
                     <div class="input-group-append">
                         <button type="submit" class="btn" id="btn-entrar">
                             <i class="fas fa-arrow-right text-muted"></i>
@@ -47,10 +47,10 @@ use Mini\core\FrontController;
         </div>
 
         <div class="help-block text-center">
-            Enter your password to retrieve your session
+            Digite sua senha para recuperar sua seção
         </div>
         <div class="text-center">
-            <a href="<?= "$this->route/handleLogout" ?>">Or sign in as a different user</a>
+            <a href="<?= "$this->route/handleLogout" ?>">Ou entre com um usuário diferente</a>
         </div>
         <div class="lockscreen-footer text-center">
             <strong>Copyright &copy; 2023-<?= date('Y'); ?><br><a href="https://www.ydealtecnologia.com.br/" target="_blank">Ydeal Tecnologia</a></strong>
@@ -86,7 +86,7 @@ use Mini\core\FrontController;
                 error: function(e) {
                     Toast.fire({
                         icon: 'question',
-                        title: 'Oops, an error occurred, try again later.'
+                        title: 'Oops, ocorreu um erro, tente mais tarde.'
                     });
                 }
             });

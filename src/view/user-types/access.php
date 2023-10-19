@@ -10,9 +10,9 @@ $permissionsFullRouteArray = array_column($permissions, 'route_full');
     <table id="access_table" class="table table-striped table-bordered col-xs-12">
         <thead>
             <tr>
-                <th>Permission</th>
-                <th>Route</th>
-                <th>Sub-Route</th>
+                <th>Permissão</th>
+                <th>Pagina</th>
+                <th>Sub-pagina</th>
             </tr>
         </thead>
         <tbody>

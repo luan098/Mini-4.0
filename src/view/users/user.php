@@ -2,7 +2,6 @@
 
 use Mini\controller\HomeController;
 use Mini\controller\UsersController;
-use Mini\model\UserTypes;
 
 ?>
 
@@ -13,7 +12,7 @@ use Mini\model\UserTypes;
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6 ellipsis">
-                    <h1 class="d-inline-block"> User </h1>
+                    <h1 class="d-inline-block"> Usuário </h1>
                     <?php if (isset($user) && $user) : ?>
                         <span class="ml-2 ellipsis"><?= "$user->id - $user->name" ?></span>
                     <?php endif ?>
@@ -21,7 +20,7 @@ use Mini\model\UserTypes;
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= HomeController::ROUTE ?>">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?= UsersController::ROUTE ?>">Users</a></li>
+                        <li class="breadcrumb-item"><a href="<?= UsersController::ROUTE ?>">Usuário</a></li>
                     </ol>
                 </div>
             </div>
@@ -35,20 +34,12 @@ use Mini\model\UserTypes;
                         <div class="card-header p-0 pt-1">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a href="<?= UsersController::ROUTE . "/" .  ($idUser ? "edit/$idUser" : "add") ?>" class="nav-link <?= $_GET['pg2'] == "add" || $_GET['pg2'] == "edit" ? "active" : '' ?>" role="tab" aria-controls="data">Data</a>
+                                    <a href="<?= UsersController::ROUTE . "/" .  ($idUser ? "edit/$idUser" : "add") ?>" class="nav-link <?= $_GET['pg2'] == "add" || $_GET['pg2'] == "edit" ? "active" : '' ?>" role="tab" aria-controls="data">Dados</a>
                                 </li>
                                 <?php if ($idUser) : ?>
                                     <li class="nav-item">
-                                        <a href="<?= UsersController::ROUTE . "/cover/$idUser" ?>" class="nav-link <?= $_GET['pg2'] == "cover" ? "active" : '' ?>" role="tab" aria-controls="cover">Cover</a>
+                                        <a href="<?= UsersController::ROUTE . "/cover/$idUser" ?>" class="nav-link <?= $_GET['pg2'] == "cover" ? "active" : '' ?>" role="tab" aria-controls="cover">Capa</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="<?= UsersController::ROUTE . "/subscriptions/$idUser" ?>" class="nav-link <?= $_GET['pg2'] == "subscriptions" ? "active" : '' ?>" role="tab" aria-controls="subscriptions">Subscriptions</a>
-                                    </li>
-                                    <?php if (in_array($_SESSION['user']->id_user_type, [UserTypes::ADMINISTRATOR])) : ?>
-                                        <li class="nav-item">
-                                            <a href="<?= UsersController::ROUTE . "/resume/$idUser" ?>" class="nav-link <?= $_GET['pg2'] == "resume" ? "active" : '' ?>" role="tab" aria-controls="resume">Resume</a>
-                                        </li>
-                                    <?php endif ?>
                                 <?php endif ?>
                             </ul>
                         </div>

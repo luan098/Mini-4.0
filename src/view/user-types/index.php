@@ -11,12 +11,12 @@ use Mini\controller\HomeController;
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1> User Types </h1>
+                    <h1> Tipos de Usuário </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= HomeController::ROUTE ?>">Home</a></li>
-                        <li class="breadcrumb-item active">User Types</li>
+                        <li class="breadcrumb-item active">Tipos de Usuário</li>
                     </ol>
                 </div>
             </div>
@@ -29,13 +29,13 @@ use Mini\controller\HomeController;
                 <div class="col-12 col-sm-12">
                     <div class="card">
                         <div class="card-header vertical-middle">
-                            <h3 class="card-title">List</h3>
+                            <h3 class="card-title">Listar</h3>
                         </div>
                         <div class="card-body">
                             <form action="<?= $this->route ?>" method="GET">
                                 <div class="card <?= isset($_GET['filtered']) && $_GET['filtered'] ? '' : 'collapsed-card' ?>" style="cursor:pointer;">
                                     <div class="card-header" data-card-widget="collapse">
-                                        <h3 class="card-title">Filters</h3>
+                                        <h3 class="card-title">Filtrar</h3>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool">
                                                 <i class="fas fa-plus"></i>
@@ -49,16 +49,16 @@ use Mini\controller\HomeController;
                                                 <div class="form-group">
                                                     <label for="status">Status</label>
                                                     <select class="form-control" name="status">
-                                                        <option value="1" <?= (isset($_GET['status']) && $_GET['status'] == '1' ? "selected" : ''); ?>>Active</option>
-                                                        <option value="0" <?= (isset($_GET['status']) && $_GET['status'] == '0' ? "selected" : ''); ?>>Inactive</option>
+                                                        <option value="1" <?= (isset($_GET['status']) && $_GET['status'] == '1' ? "selected" : ''); ?>>Ativo</option>
+                                                        <option value="0" <?= (isset($_GET['status']) && $_GET['status'] == '0' ? "selected" : ''); ?>>Inativo</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="card-footer text-right">
-                                        <a href="<?= $this->route ?>" class="btn btn-warning"><i class="fa fa-eraser mr-1"></i> Remove</a>
-                                        <button type="submit" class="btn pull-right btn-primary"><i class="fa fa-filter mr-1"></i> Apply</button>
+                                        <a href="<?= $this->route ?>" class="btn btn-warning"><i class="fa fa-eraser mr-1"></i> Remover</a>
+                                        <button type="submit" class="btn pull-right btn-primary"><i class="fa fa-filter mr-1"></i> Aplicar</button>
                                     </div>
                                 </div>
                             </form>
@@ -78,12 +78,11 @@ use Mini\controller\HomeController;
         ],
         columns: [{
                 title: "ID",
-                className: "text-center notranslate",
+                className: "text-center",
                 data: "id"
             },
             {
-                className: "notranslate",
-                title: "Name",
+                title: "Nome",
                 data: "name"
             },
             {
@@ -91,18 +90,18 @@ use Mini\controller\HomeController;
                 data: "status",
                 className: "text-center",
                 render: (field, display, row, settings) => {
-                    return !!+field ? `<span class="badge badge-success">Active</span>` : `<span class="badge badge-danger">Inactive</span>`;
+                    return !!+field ? `<span class="badge badge-success">Ativo</span>` : `<span class="badge badge-danger">Inativo</span>`;
                 },
             },
             {
-                title: "Actions",
+                title: "Ações",
                 searchable: false,
                 orderable: false,
                 className: "text-center",
                 data: "id",
                 render: (data, display, row, settings) => {
                     return `
-                        <a class="btn btn-primary btn-md" title="Edit" href="<?= "$this->route/edit/" ?>${data}"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-primary btn-md" title="Editar" href="<?= "$this->route/edit/" ?>${data}"><i class="fa fa-edit"></i></a>
                     `;
                 },
             },

@@ -3,6 +3,7 @@
 namespace Mini\controller;
 
 use Mini\core\FrontController;
+use Mini\model\Mails;
 use Mini\model\Users;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -13,11 +14,12 @@ class MailsController extends FrontController
 {
     const ROUTE = 'mails';
     public $route;
+    public $model;
 
     public function __construct()
     {
         $this->route = self::ROUTE;
-        $this->model = new Mails();
+        $this->model = new Mails;
         parent::__construct();
     }
 

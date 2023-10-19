@@ -20,10 +20,6 @@ $('select[multiple].notranslate').select2({
   multiple: true,
 });
 
-$('.summernote').summernote({
-  height: 160,
-});
-
 $('[type="submit"]').click((event) => {
   const el = $(event.currentTarget);
   const elClass = "alreadyClicked";

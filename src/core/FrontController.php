@@ -7,11 +7,8 @@ class FrontController
     private $styles = [
         "https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback",
         "./plugins/fontawesome-free/css/all.min.css",
-        "./plugins/sortable/jquery-ui.css",
-        "./plugins/fancybox5/fancybox5.css",
-        "./plugins/overlayScrollbars/css/OverlayScrollbars.min.css",
+        "./plugins/jquery-ui/jquery-ui.css",
         "./plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css",
-        "./plugins/summernote/summernote-bs4.min.css",
         "./plugins/select2/css/select2.min.css",
         "./plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css",
         "./plugins/datatables/datatables.min.css",
@@ -21,7 +18,6 @@ class FrontController
     private $headerScript = [
         "./plugins/sweetalert2/sweetalert2.min.js",
         "./plugins/jquery/jquery.min.js",
-        "./plugins/js-cookie/js-cookie.min.js",
         "./js/Ajax.js",
         "./plugins/datatables/datatables.min.js",
         "./plugins/moment/moment.min.js",
@@ -30,20 +26,12 @@ class FrontController
 
     private $script = [
         "./plugins/bootstrap/js/bootstrap.bundle.min.js",
-        "./plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js",
-        "./plugins/summernote/summernote-bs4.min.js",
         "./plugins/bs-custom-file-input/bs-custom-file-input.min.js",
-        "./plugins/sortable/jquery-ui.js",
-        "./plugins/fancybox5/fancybox5.js",
+        "./plugins/jquery-ui/jquery-ui.js",
         "./plugins/adminLTE3/js/adminlte.js",
-        "./plugins/jquery-mousewheel/jquery.mousewheel.js",
-        "./plugins/raphael/raphael.min.js",
-        "./plugins/jquery-mapael/jquery.mapael.min.js",
-        "./plugins/jquery-mapael/maps/usa_states.min.js",
-        "./plugins/chart.js/Chart.min.js",
         "./plugins/inputmask/jquery.inputmask.min.js",
         "./plugins/select2/js/select2.full.min.js",
-        "./plugins/filterizr/jquery.filterizr.min.js",
+        "./plugins/fastclick/fastclick.js",
         "./js/application.js",
     ];
     /**

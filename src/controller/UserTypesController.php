@@ -26,7 +26,7 @@ class UserTypesController extends FrontController
         parent::__construct();
     }
 
-    #[Route(name: 'List', methods: ['GET'])]
+    #[Route(name: 'Listar', methods: ['GET'])]
     public function index()
     {
         require APP . "view/{$this->route}/index.php";

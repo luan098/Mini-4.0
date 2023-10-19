@@ -12,12 +12,12 @@ use Mini\model\UserTypes;
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Profile</h1>
+                    <h1>Perfil</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= HomeController::ROUTE ?>">Home</a></li>
-                        <li class="breadcrumb-item active">Profile</li>
+                        <li class="breadcrumb-item active">Perfil</li>
                     </ol>
                 </div>
             </div>
@@ -31,20 +31,11 @@ use Mini\model\UserTypes;
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle" src="<?= $_SESSION['user']->url_cover ? $_SESSION['user']->url_cover : "./images/user-no-cover.jpg" ?>" alt="Cover user profile image.">
+                                <img class="profile-user-img img-fluid img-circle" src="<?= $_SESSION['user']->url_cover ? $_SESSION['user']->url_cover : "./images/user-no-cover.jpg" ?>" alt="Imagem de perfil do usuário.">
                             </div>
                             <h3 class="profile-username text-center"><?= $_SESSION['user']->name ?></h3>
                             <p class="text-muted text-center"><?= UserTypes::TYPES[$_SESSION['user']->id_user_type] ?></p>
                             <ul class="list-group list-group-unbordered mb-3">
-                                <li class="list-group-item">
-                                    <b>Pending Orders</b> <a class="float-right"><?= $totalOrders->pending ?></a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Delivered Orders</b> <a class="float-right"><?= $totalOrders->delivered ?></a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Canceled Orders</b> <a class="float-right"><?= $totalOrders->canceled ?></a>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -54,14 +45,14 @@ use Mini\model\UserTypes;
                     <div class="card">
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
-                                <li class="nav-item"><a class="nav-link <?= ($_GET['pg2'] ?? false) == 'orders' ? 'active' : '' ?>" href="<?= "$this->route/orders" ?>">Orders</a></li>
+                                <li class="nav-item"><a class="nav-link <?= ($_GET['pg2'] ?? false) == 'edit' ? 'active' : '' ?>" href="<?= "$this->route/edit" ?>">Perfil</a></li>
                             </ul>
                         </div>
                         <div class="card-body">
                             <div class="tab-content">
                                 <div class="active tab-pane" id="activity">
                                     <?php if (!($_GET['pg2'] ?? false)) : ?>
-                                        <?php require_once 'orders.php'; ?>
+                                        <?php require_once 'edit.php'; ?>
                                     <?php else : ?>
                                         <?php require_once "{$_GET['pg2']}.php"; ?>
                                     <?php endif ?>

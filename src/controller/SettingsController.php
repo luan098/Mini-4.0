@@ -47,7 +47,6 @@ class SettingsController extends FrontController
             'name' => $_POST['name'],
             'user_email' => $_POST['user_email'],
             'host' => $_POST['host'],
-            'ssl' => $_POST['ssl'],
             'port' => $_POST['port'],
             'recipient' => $_POST['recipient'],
         ], 'id', 1);
