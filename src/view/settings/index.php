@@ -31,10 +31,10 @@ use Mini\controller\SettingsController;
                         <div class="card-header p-0 pt-1">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a href="<?= SettingsController::ROUTE ?>" class="nav-link <?= !$_GET['pg2'] ? "active" : '' ?>" role="tab" aria-controls="general">Geral</a>
+                                    <a href="<?= SettingsController::ROUTE ?>" class="nav-link <?= !($_GET['pg2'] ?? false) ? "active" : '' ?>" role="tab" aria-controls="general">Geral</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="<?= SettingsController::ROUTE . "/email" ?>" class="nav-link <?= $_GET['pg2'] == 'email' ? "active" : '' ?>" role="tab" aria-controls="email">E-mail</a>
+                                    <a href="<?= SettingsController::ROUTE . "/email" ?>" class="nav-link <?= ($_GET['pg2'] ?? false) == 'email' ? "active" : '' ?>" role="tab" aria-controls="email">E-mail</a>
                                 </li>
                             </ul>
                         </div>

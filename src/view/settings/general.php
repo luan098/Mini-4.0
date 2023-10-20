@@ -15,7 +15,7 @@ use Mini\controller\SettingsController;
                                 <span class="input-group-text">(165x165)</span>
                             </div>
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" name="logo">
+                                <input type="file" class="custom-file-input" id="logo" name="logo">
                                 <label class="custom-file-label" for="logo">Buscar Imagem...</label>
                             </div>
                         </div>
@@ -35,7 +35,7 @@ use Mini\controller\SettingsController;
                                 <span class="input-group-text">(20x20)</span>
                             </div>
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" name="favicon">
+                                <input type="file" class="custom-file-input" id="favicon" name="favicon">
                                 <label class="custom-file-label" for="favicon">Buscar Imagem...</label>
                             </div>
                         </div>
