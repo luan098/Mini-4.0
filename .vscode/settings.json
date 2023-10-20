@@ -23,6 +23,7 @@
         "iconpicker",
         "inputmask",
         "lockscreen",
+        "luan",
         "panique",
         "phinx",
         "proftpd",
@@ -36,7 +37,6 @@
         "symfony",
         "ucase",
         "unbordered",
-        "ydeal"
     ],
-    "php.version": "PHP-8.1"
+    "php.version": "PHP-8.2.11"
 }
