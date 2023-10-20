@@ -45,7 +45,7 @@ use Mini\model\UserTypes;
                     <div class="card">
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
-                                <li class="nav-item"><a class="nav-link <?= ($_GET['pg2'] ?? false) == 'edit' ? 'active' : '' ?>" href="<?= "$this->route/edit" ?>">Perfil</a></li>
+                                <li class="nav-item"><a class="nav-link <?= !($_GET['pg2'] ?? false) || ($_GET['pg2'] ?? false) == 'edit' ? 'active' : '' ?>" href="<?= "$this->route/edit" ?>">Perfil</a></li>
                             </ul>
                         </div>
                         <div class="card-body">

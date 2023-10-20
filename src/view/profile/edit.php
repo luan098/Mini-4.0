@@ -8,36 +8,36 @@ use Mini\controller\ProfileController;
     <div class="form-group row">
         <label for="name" class="col-sm-2 col-form-label">Nome</label>
         <div class="col-sm-10">
-            <input type="name" class="form-control" id="inputName" name='name' placeholder="Nome" value="<?= $user->name ?>" required>
+            <input type="name" class="form-control" id="name" name='name' placeholder="Nome" value="<?= $user->name ?>" autocomplete="off" required>
         </div>
     </div>
     <div class="form-group row">
         <label for="email" class="col-sm-2 col-form-label">E-mail</label>
         <div class="col-sm-10">
-            <input type="email" class="form-control" name="email" placeholder="E-mail" value="<?= $user->email ?>" required>
+            <input type="email" class="form-control" id="email" name="email" placeholder="E-mail" value="<?= $user->email ?>" autocomplete="email" required>
         </div>
     </div>
     <div class="form-group row">
-        <label for="new-password" class="col-sm-2 col-form-label">Nova Senha</label>
+        <label for="new_password" class="col-sm-2 col-form-label">Nova Senha</label>
         <div class="col-sm-10">
-            <input type="password" class="form-control" autocomplete="new-password" name="new-password" placeholder="Digite uma nova senha" value="">
+            <input type="password" class="form-control" autocomplete="new-password" id="new_password" name="new_password" placeholder="Digite uma nova senha" value="">
         </div>
     </div>
     <div class="form-group row">
-        <label for="confirm-new-password" class="col-sm-2 col-form-label">Confirmação</label>
+        <label for="confirm_new_password" class="col-sm-2 col-form-label">Confirmação</label>
         <div class="col-sm-10">
-            <input type="password" class="form-control" autocomplete="new-password" name="confirm-new-password" placeholder="Confirme a nova senha" value="">
+            <input type="password" class="form-control" autocomplete="new-password" id="confirm_new_password" name="confirm_new_password" placeholder="Confirme a nova senha" value="">
         </div>
     </div>
     <div class="form-group row">
-        <label for="cover" class="col-sm-2 col-form-label">Imagem Capa</label>
+        <label for="file" class="col-sm-2 col-form-label">Imagem Capa</label>
         <div class="col-sm-10">
             <div class="input-group">
                 <div class="input-group-append">
                     <span class="input-group-text">Imagem</span>
                 </div>
                 <div class="custom-file">
-                    <input id="imageInput" type="file" multiple="false" accept=".jpg, .jpeg, .png, .gif, .webp" class="custom-file-input" aria-describedby="send-cover" name="file">
+                    <input id="file" name="file" id="imageInput" type="file" multiple="false" accept=".jpg, .jpeg, .png, .gif, .webp" class="custom-file-input" aria-describedby="send-cover">
                     <label class="custom-file-label" for="file" data-browse="Search"><?= $uploadCover ? $uploadCover->name : "Selecione um arquivo..." ?></label>
                 </div>
             </div>
