@@ -62,11 +62,10 @@ class SettingsController extends FrontController
     public function handleEditEmail()
     {
         $result = (new SettingsEmail)->update([
-            'name' => $_POST['name'],
-            'user_email' => $_POST['user_email'],
+            'sender_name' => $_POST['sender_name'],
+            'sender_email' => $_POST['sender_email'],
             'host' => $_POST['host'],
             'port' => $_POST['port'],
-            'recipient' => $_POST['recipient'],
         ], 'id', 1);
 
         if (isset($_POST['password_email']) && $_POST['password_email']) {
