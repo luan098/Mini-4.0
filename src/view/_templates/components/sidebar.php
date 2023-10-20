@@ -34,16 +34,16 @@ class MenuComponent
         $li = $this->recursiveOption($menus);
 
 ?>
-        <!-- <div class="form-inline">
-      <div class="input-group">
-        <input class="form-control form-control-sidebar" type="search" placeholder="Search" name="filter-menus" id="filter-menus" autocomplete="off">
-        <div class="input-group-append">
-          <button class="btn btn-sidebar">
-            <i class="fas fa-search fa-fw"></i>
-          </button>
+        <div class="form-inline">
+            <div class="input-group">
+                <input class="form-control form-control-sidebar" type="search" placeholder="Search" name="filter-menus" id="filter-menus" autocomplete="off">
+                <div class="input-group-append">
+                    <button class="btn btn-sidebar">
+                        <i class="fas fa-search fa-fw"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
-    </div> -->
 
         <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent nav-legacy" data-widget="treeview" role="" data-accordion="false">
             <li class="nav-header">Navigation</li>
@@ -67,21 +67,21 @@ class MenuComponent
                 return str.replace(/[^\w\s]/gi, '');
             }
 
-            // $("#filter-menus").keyup((e) => {
-            //   const currentText = removeSpecialCharsMenu($(e.currentTarget).val().toLowerCase());
-            //   const target = $(".main-sidebar li.page");
+            $("#filter-menus").keyup((e) => {
+              const currentText = removeSpecialCharsMenu($(e.currentTarget).val().toLowerCase());
+              const target = $(".main-sidebar li.page");
 
-            //   if (currentText) {
-            //     target.hide();
-            //     target.filter(function() {
-            //       const menuItemText = removeSpecialCharsMenu($(this).text().toLowerCase());
-            //       return menuItemText.includes(currentText); 
-            //     }).show().parents('.nav-treeview').show().addClass('active');
-            //   } else {
-            //     target.show().parents('.nav-treeview').removeClass('active');
-            //     selectMenuActive();
-            //   }
-            // });
+              if (currentText) {
+                target.hide();
+                target.filter(function() {
+                  const menuItemText = removeSpecialCharsMenu($(this).text().toLowerCase());
+                  return menuItemText.includes(currentText); 
+                }).show().parents('.nav-treeview').show().addClass('active');
+              } else {
+                target.show().parents('.nav-treeview').removeClass('active');
+                selectMenuActive();
+              }
+            });
 
             selectMenuActive();
         </script>
