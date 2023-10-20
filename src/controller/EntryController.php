@@ -4,6 +4,7 @@ namespace Mini\controller;
 
 use Mini\core\FrontController;
 use Mini\model\Users;
+use Mini\model\UserTypes;
 use Mini\utils\EmailConnection;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mime\Email;
@@ -143,6 +144,7 @@ class EntryController extends FrontController
     #[Route(methods: ['GET'])]
     public function register()
     {
+        $userTypes = (new UserTypes)->findBy(['status'=> 1])->data;
         require APP . "view/{$this->route}/register.php";
     }
 

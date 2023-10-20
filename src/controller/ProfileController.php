@@ -39,7 +39,7 @@ class ProfileController extends FrontController
         require APP . "view/{$this->route}/profile.php";
     }
 
-    #[Route(name: 'Save Edition', methods: ['POST'])]
+    #[Route(name: 'Salvar Edição', methods: ['POST'])]
     public function handleEdit()
     {
         $user = $this->model->findById($_SESSION['user']->id);

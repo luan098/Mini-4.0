@@ -1,6 +1,7 @@
 <?php
 
 use Mini\controller\HomeController;
+use Mini\controller\UserTypesController;
 
 ?>
 
@@ -30,6 +31,7 @@ use Mini\controller\HomeController;
                     <div class="card">
                         <div class="card-header vertical-middle">
                             <h3 class="card-title">Listar</h3>
+                            <a href="<?= UserTypesController::ROUTE . "/add" ?>" class="btn btn-info float-right"> <i class="fas fa-plus"></i> Adicionar Item</a>
                         </div>
                         <div class="card-body">
                             <form action="<?= $this->route ?>" method="GET">

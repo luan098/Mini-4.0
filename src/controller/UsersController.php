@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use function Mini\utils\redirect;
 use function Mini\utils\toastResult;
 
-#[Route(name: 'Users')]
+#[Route(name: 'Usuários')]
 class UsersController extends FrontController
 {
     const ROUTE = 'users';
@@ -33,15 +33,7 @@ class UsersController extends FrontController
         require APP . "view/{$this->route}/index.php";
     }
 
-    #[Route(name: 'Listar Clients', methods: ['GET'])]
-    public function clients()
-    {
-        $_GET['id_user_type'] = UserTypes::CUSTOMER;
-
-        $this->index();
-    }
-
-    #[Route(name: 'Addition Screen', methods: ['GET'])]
+    #[Route(name: 'Tela de Adição', methods: ['GET'])]
     public function add()
     {
         $userTypes = (new UserTypes)->findBy()->data;
@@ -49,7 +41,7 @@ class UsersController extends FrontController
         require APP . "view/{$this->route}/user.php";
     }
 
-    #[Route(name: 'Save Addition', methods: ['POST'])]
+    #[Route(name: 'Salvar Adição', methods: ['POST'])]
     public function handleAdd()
     {
         $result = $this->model->insert([
@@ -67,7 +59,7 @@ class UsersController extends FrontController
         redirect("$this->route/edit/$result->lastId");
     }
 
-    #[Route(name: 'Edition Screen', methods: ['GET'])]
+    #[Route(name: 'Tela de Edição', methods: ['GET'])]
     public function edit(int $idUser)
     {
         $user = $this->model->findById($idUser);
@@ -76,7 +68,7 @@ class UsersController extends FrontController
         require APP . "view/{$this->route}/user.php";
     }
 
-    #[Route(name: 'Save Edition', methods: ['POST'])]
+    #[Route(name: 'Salvar Edição', methods: ['POST'])]
     public function handleEdit(int $idUser)
     {
         $result = $this->model->update([
@@ -97,7 +89,7 @@ class UsersController extends FrontController
         redirect("$this->route/edit/$idUser");
     }
 
-    #[Route(name: 'Cover Image', methods: ['GET'])]
+    #[Route(name: 'Imagem de Perfil', methods: ['GET'])]
     public function cover(int $idUser)
     {
         $user = $this->model->findById($idUser);
@@ -106,7 +98,7 @@ class UsersController extends FrontController
         require APP . "view/{$this->route}/user.php";
     }
 
-    #[Route(name: 'Add/Edit Cover Image', methods: ['POST'])]
+    #[Route(name: 'Salvar/Editar Imagem de Perfil', methods: ['POST'])]
     public function handleAddUpdateCover(int $idUser)
     {
         $user = $this->model->findById($idUser);

@@ -2,7 +2,6 @@
 
 use Mini\controller\EntryController;
 use Mini\controller\ProfileController;
-use Mini\model\UserTypes;
 
 ?>
 
@@ -28,7 +27,7 @@ use Mini\model\UserTypes;
                     <img src="<?= $_SESSION['user']->url_cover ?>" class="img-circle" alt="<?= $_SESSION['user']->name ?>">
                     <p>
                         <?= $_SESSION['user']->name ?>
-                        <small><?= UserTypes::TYPES[$_SESSION['user']->id_user_type] ?></small>
+                        <small><?= $_SESSION['user_type']->name ?></small>
                     </p>
                 </li>
                 <li class="user-footer">

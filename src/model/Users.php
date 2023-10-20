@@ -145,13 +145,19 @@ final class Users extends DTModel
     }
     public function findAdminsToMail(): array
     {
+        $UserTypes = UserTypes::TABLE;
+
         $sql = "SELECT 
                     u.*
                 FROM
                     $this->table u
+                LEFT JOIN
+                    $UserTypes ut
+                on
+                    ut.id = u.id_user_type
                 WHERE
                     u.receive_emails
-                    and u.id_user_type = " . UserTypes::ADMINISTRATOR;
+                    and u.id_user_type = ut.is_admin";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute();

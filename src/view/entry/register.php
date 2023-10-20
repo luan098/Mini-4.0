@@ -65,8 +65,8 @@ use Mini\model\UserTypes;
                     </div>
                     <div class="input-group mb-3">
                         <select class="form-control" name="id_user_type">
-                            <?php foreach (UserTypes::TYPES as $key => $name) : ?>
-                                <option value="<?= $key ?>"><?= $name ?></option>
+                            <?php foreach ($userTypes as $userType) : ?>
+                                <option value="<?= $userType->id ?>"><?= $userType->name ?></option>
                             <?php endforeach ?>
                         </select>
                         <div class="input-group-append">

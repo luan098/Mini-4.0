@@ -9,10 +9,11 @@ use Mini\utils\ControllerScanner;
 use Symfony\Component\Routing\Annotation\Route;
 
 use function Mini\utils\redirect;
+use function Mini\utils\redirectReturn;
 use function Mini\utils\returnJson;
 use function Mini\utils\toastResult;
 
-#[Route(name: 'User Types')]
+#[Route(name: 'Tipos de Usuário')]
 class UserTypesController extends FrontController
 {
     const ROUTE = 'user-types';
@@ -32,7 +33,29 @@ class UserTypesController extends FrontController
         require APP . "view/{$this->route}/index.php";
     }
 
-    #[Route(name: 'Edition Screen', methods: ['GET'])]
+    #[Route(name: 'Tela de Adição', methods: ['GET'])]
+    public function add()
+    {
+        require APP . "view/{$this->route}/user-type.php";
+    }
+
+    #[Route(name: 'Salvar Adição', methods: ['POST'])]
+    public function handleAdd()
+    {
+        $result = $this->model->insert([
+            'name' => $_POST['name'],
+            'is_admin' => $_POST['is_admin'] ?? 0,
+            'is_customer' => $_POST['is_customer'] ?? 0,
+        ]);
+        
+        toastResult($result);
+
+        if ($result->error) redirectReturn($this->route);
+
+        redirect("$this->route/edit/$result->lastId");
+    }
+
+    #[Route(name: 'Tela de Edição', methods: ['GET'])]
     public function edit(int $idUserType)
     {
         $userType = $this->model->findById($idUserType);
@@ -40,12 +63,13 @@ class UserTypesController extends FrontController
         require APP . "view/{$this->route}/user-type.php";
     }
 
-    #[Route(name: 'Save Edition', methods: ['POST'])]
+    #[Route(name: 'Salvar Edição', methods: ['POST'])]
     public function handleEdit(int $idUserType)
     {
         $result = $this->model->update([
             'name' => $_POST['name'],
             'is_admin' => $_POST['is_admin'] ?? 0,
+            'is_customer' => $_POST['is_customer'] ?? 0,
             'status' => $_POST['status'] ?? 0,
         ], 'id', $idUserType);
 
@@ -53,7 +77,7 @@ class UserTypesController extends FrontController
         redirect("$this->route/edit/$idUserType");
     }
 
-    #[Route(name: 'Manage Access', methods: ['GET'])]
+    #[Route(name: 'Tela de Controle de Acessos', methods: ['GET'])]
     public function access(int $idUserType)
     {
         $userType = $this->model->findById($idUserType);
@@ -66,7 +90,7 @@ class UserTypesController extends FrontController
         require APP . "view/{$this->route}/user-type.php";
     }
 
-    #[Route(name: 'Save Manage Access', methods: ['POST'])]
+    #[Route(name: 'Salvar Controle de Acessos', methods: ['POST'])]
     public function handleEditAccess(int $idUserType)
     {
         $userType = $this->model->findById($idUserType);

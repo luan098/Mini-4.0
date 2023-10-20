@@ -24,6 +24,10 @@
                         <input type="checkbox" class="custom-control-input" id="customSwitch2" value="1" name="is_admin" <?= $userType->is_admin ?? false ? "checked" : '' ?>>
                         <label class="custom-control-label" for="customSwitch2">É Admin</label>
                     </div>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch3" value="1" name="is_customer" <?= $userType->is_customer ?? false ? "checked" : '' ?>>
+                        <label class="custom-control-label" for="customSwitch3">É Cliente</label>
+                    </div>
                 </div>
             </div>
 

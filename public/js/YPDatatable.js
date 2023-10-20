@@ -69,10 +69,10 @@ jQuery.fn.YPDatatable = function (modelName = "", options = {}) {
       "<'row'<'col-sm-12'tr>>" +
       "<'row d-flex align-items-start'<'col-sm-5'i><'col-sm-7'p>>",
     language: {
-      lengthMenu: "_MENU_ results",
-      search:
-        '<div class="custom-search"><div class="search-input-container"><input type="search" class="form-control form-control-sm" aria-label="Search"><label class="search-icon"><i class="fa fa-search"></i></label></div></div>',
-      searchPlaceholder: "Search",
+        url: `${url}plugins/datatables/pt-BR.json`,
+        lengthMenu: "_MENU_ resultados",
+        search: '<div class="custom-search"><div class="search-input-container"><input type="search" class="form-control form-control-sm" aria-label="Pesquisar"><label class="search-icon"><i class="fa fa-search"></i></label></div></div>',
+        searchPlaceholder: "Pesquisar",
     },
 
     ...options,

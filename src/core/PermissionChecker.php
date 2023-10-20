@@ -25,7 +25,7 @@ class PermissionChecker
             return true;
         }
 
-        $permissionKey = array_search(strtolower($urlController) . '/' . $urlAction, $_SESSION['permitted_routes']);
+        $permissionKey = array_search(strtolower($urlController) . '/' . strtolower($urlAction), $_SESSION['permitted_routes']);
         return $permissionKey || $permissionKey === 0;
     }
 

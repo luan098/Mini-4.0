@@ -34,7 +34,7 @@ use Mini\model\UserTypes;
                                 <img class="profile-user-img img-fluid img-circle" src="<?= $_SESSION['user']->url_cover ? $_SESSION['user']->url_cover : "./images/user-no-cover.jpg" ?>" alt="Imagem de perfil do usuário.">
                             </div>
                             <h3 class="profile-username text-center"><?= $_SESSION['user']->name ?></h3>
-                            <p class="text-muted text-center"><?= UserTypes::TYPES[$_SESSION['user']->id_user_type] ?></p>
+                            <p class="text-muted text-center"><?= $_SESSION['user_type']->name ?></p>
                             <ul class="list-group list-group-unbordered mb-3">
                             </ul>
                         </div>
