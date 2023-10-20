@@ -62,10 +62,6 @@ class SettingsController extends FrontController
     #[Route(name: 'Save Edition Email Settings', methods: ['POST'])]
     public function handleEditGeneral()
     {
-        $result = (new SettingsGeneral)->update([
-            'name' => $_POST['name'],
-        ], 'id', 1);
-
         $path = ROOT . 'public/images/config';
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
@@ -79,11 +75,6 @@ class SettingsController extends FrontController
             (new ImageManipulator($_FILES['favicon']['tmp_name'], "$path/favicon.png", 20, 20, 100))->save();
         }
 
-        if (isset($_FILES['pix_qr_code']) && $_FILES['pix_qr_code'] && $_FILES['pix_qr_code']['name']) {
-            (new ImageManipulator($_FILES['pix_qr_code']['tmp_name'], "$path/pix_qr_code.png", null, null, 100, 'png'))->save();
-        }
-
-        toastResult($result);
         redirect($this->route);
     }
 }
