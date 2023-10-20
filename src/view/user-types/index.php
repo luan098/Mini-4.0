@@ -50,7 +50,7 @@ use Mini\controller\UserTypesController;
                                             <div class="col-sm-2">
                                                 <div class="form-group">
                                                     <label for="status">Status</label>
-                                                    <select class="form-control" name="status">
+                                                    <select class="form-control" id="status" name="status">
                                                         <option value="1" <?= (isset($_GET['status']) && $_GET['status'] == '1' ? "selected" : ''); ?>>Ativo</option>
                                                         <option value="0" <?= (isset($_GET['status']) && $_GET['status'] == '0' ? "selected" : ''); ?>>Inativo</option>
                                                     </select>

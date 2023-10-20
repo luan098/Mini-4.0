@@ -33,7 +33,7 @@ use Mini\controller\HomeController;
                         <div class="card-header p-0 pt-1">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a href="<?= "$this->route/" .  ($idUserType ? "edit/$idUserType" : "add") ?>" class="nav-link <?= $_GET['pg2'] == "add" || $_GET['pg2'] == "edit" ? "active" : '' ?>" role="tab" aria-controls="data">Dados</a>
+                                    <a href="<?= "$this->route/" .  (($idUserType ?? false) ? "edit/$idUserType" : "add") ?>" class="nav-link <?= $_GET['pg2'] == "add" || $_GET['pg2'] == "edit" ? "active" : '' ?>" role="tab" aria-controls="data">Dados</a>
                                 </li>
                                 <?php if (isset($idUserType) && $idUserType) : ?>
                                     <li class="nav-item">
