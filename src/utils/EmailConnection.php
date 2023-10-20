@@ -20,7 +20,7 @@ final class EmailConnection
     function __construct()
     {
         $this->settings = (new SettingsEmail)->findById(1);
-        $this->transport = Transport::fromDsn("smtp://{$this->settings->sender_email}:{$this->settings->sender_password}@{$this->settings->sender_host}:{$this->settings->port}");
+        $this->transport = Transport::fromDsn("smtp://{$this->settings->sender_email}:{$this->settings->sender_password}@{$this->settings->host}:{$this->settings->port}");
         $this->mailer = new Mailer($this->transport);
     }
 
