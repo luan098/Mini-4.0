@@ -1,6 +1,6 @@
 <?php
 
-use Mini\controller\HomeController;
+use Mini\controller\EntryController;
 use Mini\core\FrontController;
 
 ?>
@@ -20,7 +20,6 @@ use Mini\core\FrontController;
     <?php require_once APP . 'view/_templates/components/js-header-script.php' ?>
 </head>
 
-
 <body class="hold-transition lockscreen">
 
     <div class="lockscreen-wrapper">
@@ -34,7 +33,7 @@ use Mini\core\FrontController;
             <div class="lockscreen-image">
                 <img src="<?= $user->image ?>" alt="User profile image">
             </div>
-            <form class="lockscreen-credentials" method="_POST" id="lock-screen">
+            <form action="<?= EntryController::ROUTE . "/handleLoginLockScreen" ?>" class="lockscreen-credentials" method="post">
                 <div class="input-group">
                     <input type="password" class="form-control" placeholder="Senha" name="password" autofocus>
                     <div class="input-group-append">
@@ -59,39 +58,7 @@ use Mini\core\FrontController;
     </div>
 
     <?= $this->renderScript(FrontController::RENDER_CONFIG_FOOTER_SCRIPT) ?>
-
-    <script>
-        $('#lock-screen').on('submit', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            const formValues = $(e.currentTarget).serialize();
-
-            $.ajax({
-                url: 'entry/handleLoginLockScreen',
-                dataType: 'json',
-                type: "post",
-                data: formValues,
-                cache: false,
-                success: function(response) {
-                    if (response.error) {
-                        Toast.fire({
-                            icon: response.error ? 'error' : 'success',
-                            title: response.message
-                        });
-                    } else {
-                        location.href = '<?= HomeController::ROUTE ?>'
-                    };
-                },
-                error: function(e) {
-                    Toast.fire({
-                        icon: 'question',
-                        title: 'Oops, ocorreu um erro, tente mais tarde.'
-                    });
-                }
-            });
-        });
-    </script>
+    <?php require_once APP . 'view/_templates/components/toast-fire.php' ?>
 </body>
 
 </html>

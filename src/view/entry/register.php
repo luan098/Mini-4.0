@@ -2,7 +2,6 @@
 
 use Mini\controller\EntryController;
 use Mini\core\FrontController;
-use Mini\model\UserTypes;
 
 ?>
 
@@ -25,14 +24,13 @@ use Mini\model\UserTypes;
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
                 <a href="" class="h1"><b><?= APP_NAME ?></b></a>
-                
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Após o registro aguarde a aprovação do seu acesso.</p>
 
-                <form action="" method="post" id="register">
+                <form action="<?= EntryController::ROUTE . "/handleRegister"?>" method="post">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="name" placeholder="Nome Completo *" required>
+                        <input type="text" class="form-control" name="name" placeholder="Nome Completo *" autocomplete="off" value="<?= $_GET['name'] ?? '' ?>" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -40,7 +38,7 @@ use Mini\model\UserTypes;
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" name="email" placeholder="E-mail *" autocomplete="new-email" required>
+                        <input type="email" class="form-control" name="email" placeholder="E-mail *" autocomplete="new-email" value="<?= $_GET['email'] ?? '' ?>" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -66,7 +64,7 @@ use Mini\model\UserTypes;
                     <div class="input-group mb-3">
                         <select class="form-control" name="id_user_type">
                             <?php foreach ($userTypes as $userType) : ?>
-                                <option value="<?= $userType->id ?>"><?= $userType->name ?></option>
+                                <option value="<?= $userType->id ?>" <?= ($_GET['id_user_type'] ?? false) == $userType->id ? 'selected' : '' ?> ><?= $userType->name ?></option>
                             <?php endforeach ?>
                         </select>
                         <div class="input-group-append">
@@ -114,39 +112,7 @@ use Mini\model\UserTypes;
     </div>
 
     <?= $this->renderScript(FrontController::RENDER_CONFIG_FOOTER_SCRIPT) ?>
-
-    <script>
-        $('#register').on('submit', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            const formValues = $(e.currentTarget).serialize();
-
-            $.ajax({
-                url: 'entry/handleRegister',
-                dataType: 'json',
-                type: "post",
-                data: formValues,
-                cache: false,
-                success: function(response) {
-                    if (response.error) {
-                        Toast.fire({
-                            icon: response.error ? 'error' : 'success',
-                            title: response.message
-                        });
-                    } else {
-                        location.href = '<?= EntryController::ROUTE ?>'
-                    };
-                },
-                error: function() {
-                    Toast.fire({
-                        icon: 'question',
-                        title: 'Oops, ocorreu um erro, tente mais tarde.'
-                    });
-                }
-            });
-        });
-    </script>
+    <?php require_once APP . 'view/_templates/components/toast-fire.php' ?>
 </body>
 
 </html>

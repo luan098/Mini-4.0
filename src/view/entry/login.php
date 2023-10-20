@@ -1,6 +1,6 @@
 <?php
 
-use Mini\controller\HomeController;
+use Mini\controller\EntryController;
 use Mini\core\FrontController;
 
 ?>
@@ -17,6 +17,7 @@ use Mini\core\FrontController;
     <?= $this->renderStyle() ?>
     <?= $this->renderScript(FrontController::RENDER_CONFIG_HEADER_SCRIPT) ?>
     <?php require_once APP . 'view/_templates/components/js-header-script.php' ?>
+    <?php require_once APP . 'view/_templates/components/js-header-script.php' ?>
 </head>
 
 <body class="hold-transition login-page">
@@ -27,9 +28,9 @@ use Mini\core\FrontController;
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Entre para iniciar sua sessão</p>
-                <form action="" method="post" id="form-entry">
+                <form action="<?= EntryController::ROUTE . "/handleLogin" ?>" method="post">
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" name="email" placeholder="E-mail *">
+                        <input type="email" class="form-control" name="email" placeholder="E-mail *" autocomplete="email" value="<?= $_GET['email'] ?? '' ?>">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -70,40 +71,7 @@ use Mini\core\FrontController;
     </div>
 
     <?= $this->renderScript(FrontController::RENDER_CONFIG_FOOTER_SCRIPT) ?>
-
-    <script>
-        $('#form-entry').on('submit', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            const formValues = $(e.currentTarget).serialize();
-
-            $.ajax({
-                url: 'entry/handleLogin',
-                dataType: 'json',
-                type: "post",
-                data: formValues,
-                cache: false,
-                success: function(response) {
-                    if (response.error) {
-                        Toast.fire({
-                            icon: response.error ? 'error' : 'success',
-                            title: response.message
-                        });
-                    } else {
-                        location.href = '<?= HomeController::ROUTE ?>'
-                    };
-                },
-                error: function(e) {
-                    debugger;
-                    Toast.fire({
-                        icon: 'question',
-                        title: 'Oops, ocorreu um erro, tente mais tarde.'
-                    });
-                }
-            });
-        });
-    </script>
+    <?php require_once APP . 'view/_templates/components/toast-fire.php' ?>
 </body>
 
 </html>

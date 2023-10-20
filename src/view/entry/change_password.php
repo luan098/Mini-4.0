@@ -29,7 +29,7 @@ use Mini\core\FrontController;
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Você está a um passo de obter uma nova senha, recupere sua senha.</p>
-                <form action="" method="post" id="change-password">
+                <form action="<?= EntryController::ROUTE . "handleChangePassword" ?>" method="post">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Código do E-mail *" name="temp_password" autocomplete="off" value="<?= $_GET['code'] ?? '' ?>">
                         <div class="input-group-append">
@@ -69,39 +69,7 @@ use Mini\core\FrontController;
     </div>
 
     <?= $this->renderScript(FrontController::RENDER_CONFIG_FOOTER_SCRIPT) ?>
-
-    <script>
-        $('#change-password').on('submit', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            const formValues = $(e.currentTarget).serialize();
-
-            $.ajax({
-                url: 'entry/handleChangePassword',
-                dataType: 'json',
-                type: "post",
-                data: formValues,
-                cache: false,
-                success: function(response) {
-                    if (response.error) {
-                        Toast.fire({
-                            icon: response.error ? 'error' : 'success',
-                            title: response.message
-                        });
-                    } else {
-                        location.href = '<?= HomeController::ROUTE ?>'
-                    };
-                },
-                error: function() {
-                    Toast.fire({
-                        icon: 'question',
-                        title: 'Oops, ocorreu um erro, tente mais tarde.'
-                    });
-                }
-            });
-        });
-    </script>
+    <?php require_once APP . 'view/_templates/components/toast-fire.php' ?>
 </body>
 
 </html>
