@@ -4,7 +4,7 @@ use Mini\controller\UsersController;
 
 ?>
 <div class="tab-pane show active" id="data" role="tabpanel">
-    <form method="post" action="<?= UsersController::ROUTE . "/" . ($idUser ? "handle-edit/$idUser" : 'handle-add') ?>">
+    <form method="post" action="<?= UsersController::ROUTE . "/" . (($idUser ?? false) ? "handle-edit/$idUser" : 'handle-add') ?>">
         <div class="row">
             <div class="col-sm-3">
                 <div class="form-group">

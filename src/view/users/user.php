@@ -34,9 +34,9 @@ use Mini\controller\UsersController;
                         <div class="card-header p-0 pt-1">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a href="<?= UsersController::ROUTE . "/" .  ($idUser ? "edit/$idUser" : "add") ?>" class="nav-link <?= $_GET['pg2'] == "add" || $_GET['pg2'] == "edit" ? "active" : '' ?>" role="tab" aria-controls="data">Dados</a>
+                                    <a href="<?= UsersController::ROUTE . "/" .  (($idUser ?? false) ? "edit/$idUser" : "add") ?>" class="nav-link <?= $_GET['pg2'] == "add" || $_GET['pg2'] == "edit" ? "active" : '' ?>" role="tab" aria-controls="data">Dados</a>
                                 </li>
-                                <?php if ($idUser) : ?>
+                                <?php if (($idUser ?? false)) : ?>
                                     <li class="nav-item">
                                         <a href="<?= UsersController::ROUTE . "/cover/$idUser" ?>" class="nav-link <?= $_GET['pg2'] == "cover" ? "active" : '' ?>" role="tab" aria-controls="cover">Capa</a>
                                     </li>

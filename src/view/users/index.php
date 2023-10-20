@@ -50,7 +50,7 @@ require APP . 'view/_templates/header.php' ?>
                                             <div class="col-sm-2">
                                                 <div class="form-group">
                                                     <label for="id_user_type">Tipo</label>
-                                                    <select class="w-100" name="id_user_type">
+                                                    <select class="w-100" id="id_user_type" name="id_user_type">
                                                         <option value="">All</option>
                                                         <?php foreach ($userTypes as $type) : ?>
                                                             <option value="<?= $type->id ?>" <?= (isset($_GET['id_user_type']) && $_GET['id_user_type'] == $type->id ? "selected" : ''); ?>>
@@ -63,7 +63,7 @@ require APP . 'view/_templates/header.php' ?>
                                             <div class="col-sm-2">
                                                 <div class="form-group">
                                                     <label for="approved">Aprovado</label>
-                                                    <select class="form-control" name="approved">
+                                                    <select class="form-control" id="approved" name="approved">
                                                         <option value="">All</option>
                                                         <option value="1" <?= (isset($_GET['approved']) && $_GET['approved'] == '1' ? "selected" : ''); ?>>Approved</option>
                                                         <option value="0" <?= (isset($_GET['approved']) && $_GET['approved'] == '0' ? "selected" : ''); ?>>Pending</option>
@@ -73,7 +73,7 @@ require APP . 'view/_templates/header.php' ?>
                                             <div class="col-sm-2">
                                                 <div class="form-group">
                                                     <label for="status">Status</label>
-                                                    <select class="form-control" name="status">
+                                                    <select class="form-control" id="status" name="status">
                                                         <option value="1" <?= (isset($_GET['status']) && $_GET['status'] == '1' ? "selected" : ''); ?>>Ativo</option>
                                                         <option value="0" <?= (isset($_GET['status']) && $_GET['status'] == '0' ? "selected" : ''); ?>>Inativo</option>
                                                     </select>
