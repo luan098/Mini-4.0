@@ -42,19 +42,6 @@ function redirectReturn(string $safeUrl = 'home', array $post = null)
     if ($sameURL || is_null($targetURL)) $targetURL = URL . $safeUrl;
 
     header('Location: ' . $targetURL);
-
-    // TODO: FALTA TERMINAR O PREENCHIMENTO POST MAS O RETORNO JÁ FUNCIONA
-    // echo "<script>
-    //     // Obtém todos os elementos <input>
-    //     var inputs = document.querySelectorAll('input');
-
-    //     // Armazena os valores dos inputs em localStorage
-    //     for (var i = 0; i < inputs.length; i++) {
-    //         localStorage.setItem(inputs[i].name, inputs[i].value);
-    //     }
-
-    //     history.back();
-    // </script>"; // Implementação futura
     exit();
 }
 
