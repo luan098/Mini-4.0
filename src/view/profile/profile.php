@@ -1,7 +1,6 @@
 <?php
 
 use Mini\controller\HomeController;
-use Mini\model\UserTypes;
 
 ?>
 
