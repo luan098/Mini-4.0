@@ -78,7 +78,7 @@ final class Application
 
     private function processUrlParts()
     {
-        $router = new Router($_GET['url']);
+        $router = new Router(($_GET['url'] ?? 'home'));
 
         $route = $router->getRoute();
         $subRoute = $router->getSubRoute();
