@@ -71,7 +71,7 @@ jQuery.fn.YPDatatable = function (modelName = "", options = {}) {
     language: {
         url: `${url}plugins/datatables/pt-BR.json`,
         lengthMenu: "_MENU_ resultados",
-        search: '<div class="custom-search"><div class="search-input-container"><input type="search" class="form-control form-control-sm" aria-label="Pesquisar"><label class="search-icon"><i class="fa fa-search"></i></label></div></div>',
+        search: '<div class="custom-search"><div class="search-input-container"><input type="search" class="form-control form-control-sm" name="datatable-search" id="datatable-search" aria-label="Pesquisar"><label for="datatable-search" class="search-icon"><i class="fa fa-search"></i></label></div></div>',
         searchPlaceholder: "Pesquisar",
     },
 

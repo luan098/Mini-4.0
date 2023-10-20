@@ -7,7 +7,7 @@ use Mini\core\Router;
 use Mini\model\Menus;
 
 $selectedMenu = (new Menus)->getMenuByRoute($_GET['pg']);
-if (!$selectedMenu) $selectedMenu = (new Menus)->getMenuByRoute($_GET['pg'] . "/" . $_GET['pg2']);
+if (!$selectedMenu) $selectedMenu = (new Menus)->getMenuByRoute(($_GET['pg'] ?? 'home') . "/" . ($_GET['pg2'] ?? ''));
 $menus = (new Menus)->getTree(null, 1);
 
 ?>
