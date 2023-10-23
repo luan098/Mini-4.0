@@ -1,6 +1,7 @@
 ### Ignores Manuais ###
 **/public/uploads/**
 /var/**
+config.php
 
 # Created by https://www.toptal.com/developers/gitignore/api/git,composer,visualstudiocode,netbeans
 # Edit at https://www.toptal.com/developers/gitignore?templates=git,composer,visualstudiocode,netbeans
