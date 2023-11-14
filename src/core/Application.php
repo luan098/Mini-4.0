@@ -20,65 +20,16 @@ final class Application
 
     public function __construct()
     {
-        $this->processUrlParts();
-        $this->handleRequest();
-    }
-
-    private function handleRequest()
-    {
-        if (strtolower($this->route) == 'datatable') {
-            $this->loadAjaxMasterController();
-        } elseif ($this->isValidController()) {
-            if ($this->isValidMethod()) {
-                if ($this->verifyAuthentication()) {
-                    if (PermissionChecker::havePermission($this->route, $this->subRoute)) {
-                        $this->invokeControllerMethod();
-                    } else {
-                        $this->loadUnauthorizedFound();
-                    }
-                } else {
-                    $this->redirectToLogin();
-                }
-            } else {
-                $this->handleInvalidMethod();
-            }
-        } else {
-            $this->loadPageNotFound();
+        try {
+            $this->processUrlParts();
+            $this->handleRequest();
+        } catch (\Throwable $th) {
+            $this->loadUnexpectedErrorPage($th);
         }
     }
-
-    private function redirectToLogin()
-    {
-        redirect(EntryController::ROUTE);
-    }
-
-    private function loadAjaxMasterController()
-    {
-        $controller = '\\Mini\\core\\AjaxMasterController';
-        $controller = new $controller();
-        call_user_func_array(array($controller, $this->subRoute), ['model', $this->subRoute, 'getDatatable']);
-    }
-
-    private function invokeControllerMethod()
-    {
-        $controllerClass = "\\Mini\\controller\\" . ucfirst($this->route) . 'Controller';
-        $controller = new $controllerClass();
-
-        if (!empty($this->params)) {
-            call_user_func_array(array($controller, $this->subRoute), $this->params);
-        } else {
-            $controller->{$this->subRoute}();
-        }
-    }
-
-    private function isValidController()
-    {
-        return file_exists(APP . "controller/" . ucfirst($this->route) . 'Controller.php');
-    }
-
     private function processUrlParts()
     {
-        $router = new Router(($_GET['url'] ?? 'home'));
+        $router = new Router($_GET['url']);
 
         $route = $router->getRoute();
         $subRoute = $router->getSubRoute();
@@ -88,30 +39,38 @@ final class Application
         $this->params = $router->getParams();
     }
 
-    public static function formatUrlPart($part)
+    private function handleRequest()
     {
-        return implode("", array_map(function ($fragment) {
-            return ucfirst($fragment);
-        }, explode('-', $part)));
+        if (strtolower($this->route) == 'datatable') $this->loadAjaxMasterController();
+
+        if (!$this->isValidRoute()) $this->loadPageNotFound();
+
+        if (!$this->isValidHttpMethod()) $this->handleInvalidMethod();
+
+        if (!$this->verifyAuthentication()) $this->redirectToLogin();
+
+        if (!PermissionChecker::havePermission($this->route, $this->subRoute)) $this->loadUnauthorizedPage();
+
+        $this->invokeControllerMethod();
     }
 
-    private function loadPageNotFound()
+    /**
+     * @deprecated version 0.2 will be removed in the future, cause a lot of security problems
+     */
+    private function loadAjaxMasterController()
     {
-        if (!isset($_SESSION['user']) || !$_SESSION['user']->id) {
-            $this->redirectToLogin();
-        }
-        (new ErrorsController)->notFound();
+        $controller = '\\Mini\\core\\AjaxMasterController';
+        $controller = new $controller();
+        call_user_func_array(array($controller, $this->subRoute), ['model', $this->subRoute, 'getDatatable']);
+        exit();
     }
 
-    private function loadUnauthorizedFound()
+    private function isValidRoute()
     {
-        if (!isset($_SESSION['user']) || !$_SESSION['user']->id) {
-            $this->redirectToLogin();
-        }
-        (new ErrorsController)->unauthorized();
+        return file_exists(APP . "controller/" . ucfirst($this->route) . 'Controller.php');
     }
 
-    private function isValidMethod()
+    private function isValidHttpMethod()
     {
         try {
             $controllerClass = "\\Mini\\controller\\" . ucfirst($this->route) . 'Controller';
@@ -132,6 +91,14 @@ final class Application
         return false;
     }
 
+    private function loadPageNotFound()
+    {
+        if (!isset($_SESSION['user']) || !$_SESSION['user']->id) $this->redirectToLogin();
+
+        (new ErrorsController)->notFound();
+        exit();
+    }
+
     private function verifyAuthentication()
     {
         $noAuthenticate = $this->verifyNoAuthenticate($this->route, $this->subRoute);
@@ -141,6 +108,47 @@ final class Application
         }
 
         return false;
+    }
+
+    private function redirectToLogin()
+    {
+        redirect(EntryController::ROUTE);
+    }
+
+    private function invokeControllerMethod()
+    {
+        $controllerClass = "\\Mini\\controller\\" . ucfirst($this->route) . 'Controller';
+        $controller = new $controllerClass();
+
+        if (!empty($this->params)) {
+            call_user_func_array(array($controller, $this->subRoute), $this->params);
+        } else {
+            $controller->{$this->subRoute}();
+        }
+    }
+
+    public static function formatUrlPart($part)
+    {
+        return implode("", array_map(function ($fragment) {
+            return ucfirst($fragment);
+        }, explode('-', $part)));
+    }
+
+    private function loadUnauthorizedPage()
+    {
+        if (!isset($_SESSION['user']) || !$_SESSION['user']->id) $this->redirectToLogin();
+        
+        (new ErrorsController)->unauthorized();
+        exit();
+    }
+
+    private function loadUnexpectedErrorPage(object $error)
+    {
+        if (!isset($_SESSION['user']) || !$_SESSION['user']->id) $this->redirectToLogin();
+
+        $_POST['error'] = $error;
+        (new ErrorsController)->unexpected();
+        exit();
     }
 
     private static function verifyNoAuthenticate(string $urlController, string $urlAction)
@@ -173,5 +181,6 @@ final class Application
     {
         header('HTTP/1.0 405 Method Not Allowed');
         echo 'Method Not Allowed';
+        exit();
     }
 }

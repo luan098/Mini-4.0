@@ -60,14 +60,17 @@ if (ENVIRONMENT === LOCALHOST) {
     define("DB_NAME", 'mini4');
     define("DB_USER", 'root');
     define("DB_PASS", '');
+    define("DEVELOPER_MAILS", []);
 } else if (ENVIRONMENT === DEVELOPMENT) {
     define("DB_HOST", '');
     define("DB_NAME", '');
     define("DB_USER", '');
     define("DB_PASS", '');
+    define("DEVELOPER_MAILS", []);
 } else if (ENVIRONMENT === PRODUCTION) {
     define("DB_HOST", '');
     define("DB_NAME", '');
     define("DB_USER", '');
     define("DB_PASS", '');
+    define("DEVELOPER_MAILS", []);
 }
