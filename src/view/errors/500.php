@@ -5,7 +5,7 @@ use Mini\core\FrontController;
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <base href="<?= URL ?>" />
@@ -74,18 +74,16 @@ use Mini\core\FrontController;
 
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
-        <!-- Main content -->
         <section class="content">
             <div class="error-container">
                 <div class="error-header">
                     <h1>500</h1>
-                    <h2>Oops! Something went wrong.</h2>
+                    <h2>Oops! Ocorreu algo errado.</h2>
                 </div>
 
                 <div class="error-message">
                     <p>
-                        We're sorry, but something went wrong. We've been notified about this issue and will work on
-                        resolving it as soon as possible.
+                        Lamentamos, mas algo deu errado. Fomos notificados sobre este problema e trabalharemos para resolvê-lo o mais rápido possível.
                     </p>
                 </div>
 
@@ -104,19 +102,11 @@ use Mini\core\FrontController;
                 <?php endif ?>
 
                 <div class="home-button">
-                    <a href="/">Return to Home</a>
+                    <a href="#">Retornar Para a Home</a>
                 </div>
             </div>
         </section>
-        <!-- /.content -->
     </div>
-
-    <!-- AdminLTE JS -->
-    <script src="path/to/adminlte.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js" integrity="sha384-M-A8sH1ntv9YV9z22slh3IqB1rSHrNlZ9PznAmnVAh1yEAA3E2lL+1QI5ZZK6jW" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyIQqfFgA4MqdwgkI/6S5zn18u" crossorigin="anonymous"></script>
-</body>
+  </body>
 
 </html>
