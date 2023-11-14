@@ -17,7 +17,6 @@ use Mini\core\FrontController;
     <?= $this->renderStyle() ?>
     <?= $this->renderScript(FrontController::RENDER_CONFIG_HEADER_SCRIPT) ?>
     <?php require_once APP . 'view/_templates/components/js-header-script.php' ?>
-    <?php require_once APP . 'view/_templates/components/js-header-script.php' ?>
 </head>
 
 <body class="hold-transition login-page">
