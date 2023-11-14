@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.35, for Linux (x86_64)
 --
 -- Host: localhost    Database: mini4
 -- ------------------------------------------------------
--- Server version	5.5.5-10.4.28-MariaDB
+-- Server version	8.0.35-0ubuntu0.22.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,6 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `_errors`
+--
+
+DROP TABLE IF EXISTS `_errors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `_errors` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `error` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'json_encoded error object',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int DEFAULT NULL,
+  `created_by_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `_errors_FK` (`created_by`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `_errors`
+--
+
+LOCK TABLES `_errors` WRITE;
+/*!40000 ALTER TABLE `_errors` DISABLE KEYS */;
+/*!40000 ALTER TABLE `_errors` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `menus`
 --
 
@@ -23,16 +50,16 @@ DROP TABLE IF EXISTS `menus`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `menus` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_menu_father` int(11) DEFAULT NULL,
-  `name` varchar(200) NOT NULL,
-  `page` varchar(200) DEFAULT NULL,
-  `icon` varchar(150) DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_menu_father` int DEFAULT NULL,
+  `name` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
+  `page` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `icon` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `status` binary(1) DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `menus_FK` (`id_menu_father`),
   CONSTRAINT `menus_FK` FOREIGN KEY (`id_menu_father`) REFERENCES `menus` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +68,7 @@ CREATE TABLE `menus` (
 
 LOCK TABLES `menus` WRITE;
 /*!40000 ALTER TABLE `menus` DISABLE KEYS */;
-INSERT INTO `menus` VALUES (2,NULL,'Users','','fas fa-users-cog',_binary '1'),(3,NULL,'Configurations','','fas fa-tools',_binary '1'),(4,3,'System','settings','far fa-circle',_binary '1'),(16,2,'Users','users','far fa-circle',_binary '1'),(18,2,'Clients','users/clients','far fa-circle',_binary '1'),(24,2,'User Types','user-types','far fa-circle',_binary '1');
+INSERT INTO `menus` VALUES (1,NULL,'Usuário','','fas fa-users-cog',_binary '1'),(2,NULL,'Configurações','','fas fa-tools',_binary '1'),(3,2,'Sistema','settings','far fa-circle',_binary '1'),(4,1,'Usuários','users','far fa-circle',_binary '1'),(5,1,'Tipos','user-types','far fa-circle',_binary '1');
 /*!40000 ALTER TABLE `menus` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,12 +80,12 @@ DROP TABLE IF EXISTS `settings_email`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `settings_email` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sender_name` varchar(255) NOT NULL,
-  `sender_email` varchar(200) NOT NULL,
-  `sender_password` varchar(255) NOT NULL,
-  `sender_host` varchar(200) NOT NULL,
-  `port` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `sender_name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `sender_email` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
+  `sender_password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `host` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `port` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -81,9 +108,9 @@ DROP TABLE IF EXISTS `settings_general`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `settings_general` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text DEFAULT NULL,
-  `pix_code` varchar(100) DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` text COLLATE utf8mb4_general_ci,
+  `pix_code` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -106,21 +133,21 @@ DROP TABLE IF EXISTS `uploads`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `uploads` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(254) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL COMMENT 'Nome de exibição do arquivo, não precisa da extensão',
   `file` varchar(350) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL COMMENT 'Nome real do arquivo junto com sua extensão, use um nome unico sempre para evitar duplicação de arquivos',
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
-  `created_by` int(11) DEFAULT NULL,
-  `updated_by` int(11) DEFAULT NULL,
-  `description` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `created_by` int DEFAULT NULL,
+  `updated_by` int DEFAULT NULL,
+  `description` text COLLATE utf8mb4_general_ci,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uploaded_files_un` (`file`),
   KEY `uploaded_files_FK` (`created_by`) USING BTREE,
   KEY `uploaded_files_FK_1` (`updated_by`) USING BTREE,
   CONSTRAINT `uploaded_files_FK` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
   CONSTRAINT `uploaded_files_FK_1` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabela centralizadora de anexos, todos os anexos ficam aqui e e são invocados por tabelas relacionais';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabela centralizadora de arquivos, todos as demais telas que tem relacao com upload dos usuarios do sistema fazem relacao com essa';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,7 +156,6 @@ CREATE TABLE `uploads` (
 
 LOCK TABLES `uploads` WRITE;
 /*!40000 ALTER TABLE `uploads` DISABLE KEYS */;
-INSERT INTO `uploads` VALUES (1,'controle.webp','6501c8b887fb4.webp','2023-09-13 14:35:36',NULL,1,NULL,NULL),(2,'controle.webp','6501c9291c8ed.webp','2023-09-13 14:37:29',NULL,1,NULL,NULL),(3,'bateria-carro.webp','6501c972e1bd1.webp','2023-09-13 14:38:42',NULL,1,NULL,NULL),(4,'bateria-carro.webp','6501c9808cc8e.webp','2023-09-13 14:38:56',NULL,1,NULL,NULL),(5,'Prensa-mesa.webp','6501c9e404775.webp','2023-09-13 14:40:36',NULL,1,NULL,NULL),(6,'Prensa-mesa.webp','6501c9ecb5a06.webp','2023-09-13 14:40:44',NULL,1,NULL,NULL),(7,'S5b9d9be95bda4b9a831b298f295385abu.jpg_.webp','6501ca3f1c23c.webp','2023-09-13 14:42:07',NULL,1,NULL,NULL),(8,'S5b9d9be95bda4b9a831b298f295385abu.jpg_.webp','6501ca4575819.webp','2023-09-13 14:42:13',NULL,1,NULL,NULL),(9,'S817f049a38864724a3a1289282a83efcw.jpg_.webp','6501ca9072424.webp','2023-09-13 14:43:28',NULL,1,NULL,NULL),(10,'S817f049a38864724a3a1289282a83efcw.jpg_.webp','6501ca97e63b7.webp','2023-09-13 14:43:35',NULL,1,NULL,NULL),(11,'S817f049a38864724a3a1289282a83efcw.jpg_.webp','650c8d3537846.png','2023-09-13 14:43:35',NULL,1,NULL,NULL),(12,'S817f049a38864724a3a1289282a83efcw.jpg_.webp','650d845c58a5d.jpg','2023-09-13 14:43:35',NULL,1,NULL,NULL),(13,'S817f049a38864724a3a1289282a83efcw.jpg_.webp','650d84796a7fd.jpg','2023-09-13 14:43:35',NULL,1,NULL,NULL);
 /*!40000 ALTER TABLE `uploads` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -141,14 +167,14 @@ DROP TABLE IF EXISTS `user_type_permissions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_type_permissions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `route` varchar(255) NOT NULL,
-  `sub_route` varchar(255) DEFAULT NULL,
-  `id_user_type` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `route` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `sub_route` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `id_user_type` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_type_accesses_FK` (`id_user_type`),
   CONSTRAINT `user_type_accesses_FK` FOREIGN KEY (`id_user_type`) REFERENCES `user_types` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,6 +183,7 @@ CREATE TABLE `user_type_permissions` (
 
 LOCK TABLES `user_type_permissions` WRITE;
 /*!40000 ALTER TABLE `user_type_permissions` DISABLE KEYS */;
+INSERT INTO `user_type_permissions` VALUES (1,'users','index',2),(2,'users','clients',2),(5,'users','edit',2),(6,'users','cover',2);
 /*!40000 ALTER TABLE `user_type_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -168,12 +195,13 @@ DROP TABLE IF EXISTS `user_types`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_types` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(150) NOT NULL,
-  `status` binary(1) DEFAULT '1',
-  `is_admin` binary(1) DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `status` tinyint(1) DEFAULT '1',
+  `is_admin` tinyint(1) DEFAULT '0',
+  `is_customer` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -182,7 +210,7 @@ CREATE TABLE `user_types` (
 
 LOCK TABLES `user_types` WRITE;
 /*!40000 ALTER TABLE `user_types` DISABLE KEYS */;
-INSERT INTO `user_types` VALUES (1,'Customer',_binary '1',_binary '0'),(2,'Seller',_binary '1',_binary '0'),(3,'Mediator (Transporter)',_binary '1',_binary '0'),(4,'Administrator',_binary '1',_binary '1'),(5,'Support Team',_binary '1',_binary '0');
+INSERT INTO `user_types` VALUES (1,'Administrador',1,1,0),(2,'Supporte',1,0,0),(3,'Cliente',1,0,1);
 /*!40000 ALTER TABLE `user_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,28 +222,25 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_user_type` int(11) NOT NULL,
-  `name` text NOT NULL,
-  `email` varchar(150) NOT NULL,
-  `password` varchar(256) NOT NULL,
-  `cpf_cnpj` varchar(50) NOT NULL,
-  `date_birth` date NOT NULL,
-  `terms` binary(1) DEFAULT '0',
-  `approved` tinyint(1) DEFAULT 0,
-  `status` binary(1) DEFAULT '1',
-  `temp_password` text DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp(),
-  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
-  `created_by` int(11) DEFAULT NULL,
-  `updated_by` int(11) DEFAULT NULL,
-  `id_upload_cover` int(11) DEFAULT NULL,
-  `lock_screen_login_token` varchar(255) DEFAULT NULL,
-  `receive_emails` tinyint(1) DEFAULT 1,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_user_type` int NOT NULL,
+  `name` text COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(256) COLLATE utf8mb4_general_ci NOT NULL,
+  `status` tinyint(1) DEFAULT '1',
+  `temp_password` text COLLATE utf8mb4_general_ci,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `created_by` int DEFAULT NULL,
+  `updated_by` int DEFAULT NULL,
+  `id_upload_cover` int DEFAULT NULL,
+  `lock_screen_login_token` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `receive_emails` tinyint(1) DEFAULT '1',
   `spam_prevent_timer` datetime DEFAULT NULL,
+  `approved` tinyint(1) DEFAULT '0',
+  `terms` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `cpf_cnpj` (`cpf_cnpj`),
   KEY `users_FK` (`id_user_type`),
   KEY `users_FK_3` (`updated_by`),
   KEY `users_FK_2` (`created_by`),
@@ -224,7 +249,7 @@ CREATE TABLE `users` (
   CONSTRAINT `users_FK_2` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
   CONSTRAINT `users_FK_3` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`),
   CONSTRAINT `users_FK_4` FOREIGN KEY (`id_upload_cover`) REFERENCES `uploads` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -233,7 +258,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,4,'Suporte Ydeal','suporte@ydeal.com.br','25f9e794323b453885f5181f1b624d0b','19.471.199/0001-64','2014-06-01',_binary '1',1,_binary '1','Rec6511e19e85381','2023-09-21 15:00:41','2023-10-05 10:59:25',NULL,NULL,11,NULL,0,NULL),(6,1,'Guilherme Simas','cliente@ydeal.com.br','25f9e794323b453885f5181f1b624d0b','964.651.489-51','2001-03-03',_binary '1',1,_binary '1',NULL,'2023-09-21 15:00:41','2023-10-04 16:21:34',NULL,NULL,13,NULL,1,NULL);
+INSERT INTO `users` VALUES (1,1,'Admin','admin@email.com.br','25f9e794323b453885f5181f1b624d0b',1,'','2023-09-21 15:00:41','2023-10-20 13:44:44',NULL,NULL,NULL,NULL,1,NULL,1,1),(2,2,'Suporte','suporte@email.com.br','25f9e794323b453885f5181f1b624d0b',1,'','2023-09-21 15:00:41','2023-10-20 13:43:30',NULL,NULL,NULL,'26532ae3229d6b',1,NULL,1,1),(3,3,'Cliente','cliente@email.com.br','25f9e794323b453885f5181f1b624d0b',1,NULL,'2023-09-21 15:00:41','2023-10-19 11:18:38',NULL,NULL,NULL,NULL,0,NULL,1,1),(4,1,'teste','teste@email.com','25f9e794323b453885f5181f1b624d0b',1,'f8383542c5c28439a1439700e0728ad5','2023-10-20 10:46:51','2023-10-20 13:42:29',NULL,NULL,NULL,NULL,1,NULL,0,1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -250,4 +275,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-09 14:37:11
+-- Dump completed on 2023-11-14 11:57:54
