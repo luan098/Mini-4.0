@@ -8,6 +8,7 @@ use Mini\model\Users;
 use Symfony\Component\Routing\Annotation\Route;
 
 use function Mini\utils\redirectReturn;
+use function Mini\utils\toast;
 use function Mini\utils\toastResult;
 
 #[Route(defaults: ['NO-PERMISSIONS-REQUIRED'])]
@@ -49,7 +50,12 @@ class ProfileController extends FrontController
             'email' => $_POST['email'],
         ], 'id', $user->id);
 
-        if (isset($_POST['new-password']) && $_POST['new-password'] && $_POST['new-password'] === $_POST['confirm-new-password']) {
+        if (isset($_POST['new_password']) && $_POST['new_password']) {
+            if (!isset($_POST['confirm_new_password']) || !$_POST['confirm_new_password'] || $_POST['new_password'] != $_POST['confirm_new_password']) {
+                toast('error', 'As senhas não conferem.');
+                redirectReturn();
+            }
+
             $hash = md5($_POST['password']);
             $this->model->update(['password' => $hash], 'id', $user->id);
         };
