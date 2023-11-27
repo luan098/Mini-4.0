@@ -50,7 +50,7 @@ class UsersController extends FrontController
             'email' => $_POST['email'],
             'terms' => $_POST['terms'],
             'approved' => $_POST['approved'],
-            'password' => md5($_POST['password']),
+            'password' => Users::encryptPassword($_POST['password']),
         ]);
 
         toastResult($result);
@@ -81,7 +81,7 @@ class UsersController extends FrontController
         ], 'id', $idUser);
 
         if (isset($_POST['password']) && $_POST['password']) {
-            $hash = md5($_POST['password']);
+            $hash = Users::encryptPassword($_POST['password']);
             $this->model->update(['password' => $hash], 'id', $idUser);
         };
 

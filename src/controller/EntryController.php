@@ -52,7 +52,9 @@ class EntryController extends FrontController
     public function handleLogin()
     {
         try {
-            $user = (new Users)->findOneBy(['email' => $_POST['email'], 'password' => md5($_POST['password'])]);
+            $user = (new Users)->findOneBy(['email' => $_POST['email']]);
+
+            if (!Users::comparePasswords($_POST['password'], $user->password ?? '')) $user = false;
 
             if (!$user) throw new Exception('E-mail ou senha incorretos.');
             if (!$user->approved) throw new Exception('Seu usuário não foi aprovado ainda.');
@@ -145,7 +147,7 @@ class EntryController extends FrontController
             if (!$user) throw new Exception('Código de recuperação inválido.');
             if ($_POST['password'] != $_POST['confirm_password']) throw new Exception('A senha e a confirmação não combinam.');
 
-            $result = (new Users)->update(['password' => md5($_POST['password']), 'temp_password' => ''], 'id', $user->id);
+            $result = (new Users)->update(['password' => Users::encryptPassword($_POST['password']), 'temp_password' => ''], 'id', $user->id);
 
             (new Users)->updateSessionUserData($user->id);
 
@@ -174,7 +176,7 @@ class EntryController extends FrontController
             $result = (new Users)->insert([
                 'name' => $_POST['name'],
                 'email' => $_POST['email'],
-                'password' => md5($_POST['password']),
+                'password' => Users::encryptPassword($_POST['password']),
                 'id_user_type' => $_POST['id_user_type'],
                 'terms' => $_POST['terms'],
             ]);
@@ -209,7 +211,9 @@ class EntryController extends FrontController
             
             $tokenData = json_decode($_COOKIE['auth']);
             
-            $user = (new Users)->findOneBy(['lock_screen_login_token' => $tokenData, 'password' => md5($_POST['password'])]);
+            $user = (new Users)->findOneBy(['lock_screen_login_token' => $tokenData]);
+            if (!Users::comparePasswords($_POST['password'], $user->password ?? '')) $user = false;
+
             if (!$user) throw new Exception('Token ou senha inválidos, tente novamente ou acesse a tela de login.');
 
             $expire = (time() + (30 * 24 * 3600));

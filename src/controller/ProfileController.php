@@ -56,7 +56,7 @@ class ProfileController extends FrontController
                 redirectReturn();
             }
 
-            $hash = md5($_POST['password']);
+            $hash = Users::EncryptPassword($_POST['new_password']);
             $this->model->update(['password' => $hash], 'id', $user->id);
         };
 

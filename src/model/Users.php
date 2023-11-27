@@ -163,4 +163,12 @@ final class Users extends DTModel
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    public static function encryptPassword(string $password) {
+        return password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    public static function comparePasswords(string $passwordTyped, $passwordEncrypted) {
+        return password_verify($passwordTyped, $passwordEncrypted);
+    }
 }
