@@ -8,6 +8,9 @@ class PermissionChecker
 {
     public static function havePermission(string $urlController, string $urlAction)
     {
+        $urlController = ucfirst($urlController);
+        $urlAction = lcfirst($urlAction);
+
         if (self::verifyNoAuthenticate($urlController, $urlAction)) {
             return true;
         }
@@ -25,7 +28,7 @@ class PermissionChecker
             return true;
         }
 
-        $permissionKey = array_search(strtolower($urlController) . '/' . strtolower($urlAction), $_SESSION['permitted_routes']);
+        $permissionKey = array_search(strtolower($urlController) . '/' . $urlAction, $_SESSION['permitted_routes']);
         return $permissionKey || $permissionKey === 0;
     }
 
