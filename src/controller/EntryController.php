@@ -196,7 +196,8 @@ class EntryController extends FrontController
     {
         $tokenData = $_COOKIE['auth'] ?? '';
         $user = (new Users)->findOneBy(['lock_screen_login_token' => $tokenData ?? false]);
-        if (!$user) redirect("$this->route");
+
+        if (!$user) $this->handleLogout();
 
         $user = (new Users)->findByIdWithImage($user->id);
 
